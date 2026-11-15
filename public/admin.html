@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>유비스 · AI 시안 상담 신청</title>
+<style>
+body{margin:0;background:#0f0e0c;color:#f3efe7;font-family:system-ui,"Noto Sans KR",sans-serif;padding:20px}
+h1{font-size:20px;font-weight:600;margin:0 0 14px}
+.bar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+input{background:#1b1915;border:1px solid #2c2822;border-radius:10px;padding:11px 12px;color:inherit;min-width:220px;font-size:15px}
+button{background:#c8a97e;border:0;border-radius:10px;padding:11px 16px;font-weight:700;color:#17130d;cursor:pointer;font-size:14px}
+button.ghost{background:none;border:1px solid #3a342b;color:#e6d3ad}
+#msg{color:#a39b8d;font-size:13px;margin:6px 0 12px}
+.card{background:#181612;border:1px solid #2c2822;border-radius:14px;padding:14px;margin-bottom:10px}
+.card b{font-size:16px}
+.card a{color:#e6d3ad}
+.meta{color:#a39b8d;font-size:12.5px;margin-top:4px}
+.tag{display:inline-block;font-size:11px;padding:2px 8px;border-radius:99px;margin-left:6px;background:#2a251d;color:#e6d3ad}
+.tag.failed{background:#3a1f1a;color:#f0b3a0}
+.tag.done{background:#1d2b20;color:#a7d8b1}
+</style>
+</head>
+<body>
+<h1>AI 시안 상담 신청 목록</h1>
+<div class="bar">
+  <input id="key" type="password" placeholder="관리자 키 (ADMIN_KEY)" autocomplete="off">
+  <button id="load" type="button">불러오기</button>
+  <button id="csv" class="ghost" type="button">CSV 복사</button>
+</div>
+<div id="msg">관리자 키는 이 브라우저에만 저장돼요.</div>
+<div id="list"></div>
+<script>
+const $=id=>document.getElementById(id);
+let rows=[];
+try{ $("key").value=localStorage.getItem("ubisAdminKey")||""; }catch(e){}
+const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const P={pet:"PET 여닫이장",glass:"유리 쇼케이스장",folding:"폴딩도어 광폭장",open:"오픈형 붙박이장",wallpanel:"벽판넬 시스템장"};
+const C={white:"화이트 무광",ivory:"아이보리",greige:"그레이지",oak:"오크",walnut:"월넛",black:"블랙"};
+const ST={requested:"요청",done:"생성 완료",failed:"생성 실패"};
+async function load(){
+  const key=$("key").value.trim(); if(!key){$("msg").textContent="관리자 키를 입력해 주세요.";return;}
+  try{ localStorage.setItem("ubisAdminKey",key); }catch(e){}
+  $("msg").textContent="불러오는 중…";
+  try{
+    const r=await fetch("/api/leads",{headers:{"x-admin-key":key}}); const d=await r.json();
+    if(!d.ok){ $("msg").textContent=d.message||"불러오지 못했어요."; return; }
+    rows=d.items; $("msg").textContent=`총 ${d.count}건 (최근 순)`;
+    $("list").innerHTML=rows.map(x=>{ const g=x.design||{}; const t=new Date(x.createdAt).toLocaleString("ko-KR");
+      return `<div class="card"><b>${esc(x.name)}</b><span class="tag ${esc(x.status)}">${esc(ST[x.status]||x.status)}</span>
+      <div><a href="tel:${esc(x.phone)}">${esc(x.phone)}</a></div>
+      <div class="meta">${esc(t)} · ${esc(P[g.product]||g.product)} · ${esc(C[g.color]||g.color)} · ${esc(g.W)}×${esc(g.H)}mm · ${esc(g.variantName||"")}${g.light?" · 조명":""}</div>
+      <div class="meta">${esc(Object.values(g.answers||{}).join(" / "))}</div></div>`; }).join("");
+  }catch(e){ $("msg").textContent="네트워크 오류가 났어요."; }
+}
+$("load").onclick=load;
+$("csv").onclick=async()=>{
+  const head="일시,성함,연락처,품목,컬러,가로,높이,구성,조명,상태,상담답변";
+  const body=rows.map(x=>{const g=x.design||{};return [x.createdAt,x.name,x.phone,P[g.product]||g.product,C[g.color]||g.color,g.W,g.H,g.variantName,g.light?"Y":"N",ST[x.status]||x.status,Object.values(g.answers||{}).join("/")].map(v=>`"${String(v??"").replace(/"/g,'""')}"`).join(",");}).join("\n");
+  try{ await navigator.clipboard.writeText(head+"\n"+body); $("msg").textContent="CSV를 복사했어요. 엑셀이나 구글 시트에 붙여넣으세요."; }catch(e){ $("msg").textContent="복사가 막혀 있어요."; }
+};
+</script>
+</body>
+</html>
