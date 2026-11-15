@@ -241,93 +241,157 @@ body.lbopen .dock{display:none}
 .lb img{max-width:100%;max-height:82vh;border-radius:14px}
 .lb p{position:absolute;bottom:26px;left:0;right:0;text-align:center;color:#eee;font-size:14px;font-family:"Noto Serif KR"}
 .lbx{position:absolute;top:16px;right:16px;width:44px;height:44px;border-radius:50%;border:0;background:rgba(255,255,255,.15);color:#fff;font-size:22px}
+
+/* ===== 앱 레이아웃 ===== */
+html,body{height:100%;overflow:hidden;padding-bottom:0 !important}
+body{background:#070605}
+.app{position:fixed;inset:0;max-width:520px;margin:0 auto;background:var(--bg);overflow:hidden;box-shadow:0 0 0 1px #1c1a16}
+.topbar{position:absolute;left:0;right:0;top:0;height:56px;padding:0 10px calc(0px);display:flex;align-items:center;gap:10px;z-index:20;background:var(--bg);transition:background .3s}
+.topbar.clear{background:transparent}
+.tb-back{width:44px;height:44px;border:0;background:none;color:var(--ink);font-size:22px;border-radius:12px}
+.prog{flex:1;height:3px;background:rgba(255,255,255,.12);border-radius:3px;overflow:hidden}
+.prog i{display:block;height:100%;width:0;background:linear-gradient(90deg,#c8a97e,#e6d3ad);transition:width .45s}
+.topbar.clear .prog{opacity:0}
+.tb-kk{font-size:12.5px;color:var(--gold2);text-decoration:none;border:1px solid var(--line);border-radius:99px;padding:8px 12px;min-height:38px;display:inline-flex;align-items:center;background:rgba(15,14,12,.5)}
+.scr{position:absolute;left:0;right:0;top:56px;bottom:0;display:flex;flex-direction:column;opacity:0;transform:translateX(28px);pointer-events:none;transition:opacity .35s ease,transform .35s ease;visibility:hidden}
+.scr.on{opacity:1;transform:none;pointer-events:auto;visibility:visible}
+.scr-in{flex:1;min-height:0;overflow:auto;padding:12px 20px 16px;-webkit-overflow-scrolling:touch}
+.bottom{padding:12px 16px calc(14px + env(safe-area-inset-bottom));display:flex;gap:8px;background:linear-gradient(180deg,rgba(15,14,12,0),var(--bg) 30%)}
+.bottom .btn{flex:1;min-height:54px;font-size:16px}
+.bottom .btn.line{background:none;flex:.8}
+.lead2{font-size:14px;color:var(--mute);margin-top:6px}
+h2.q2{font-family:"Noto Serif KR",serif;font-weight:500;font-size:clamp(23px,6vw,28px);line-height:1.38;margin:8px 0 4px}
+/* intro */
+#s-intro{top:0}
+#hero{position:absolute;inset:0;height:auto;min-height:0;max-height:none}
+.intro-in{position:relative;z-index:2;margin-top:auto;padding:0 22px 8px}
+.intro-in h1{font-family:"Noto Serif KR",serif;font-weight:500;font-size:clamp(34px,9vw,44px);line-height:1.2;letter-spacing:-.015em;margin:12px 0 12px}
+.intro-in p{color:#ddd5c7;font-size:15px;font-weight:300}
+.badges{display:flex;gap:6px;flex-wrap:wrap;margin-top:16px}
+.badges span{font-size:12px;color:#f1e6cf;background:rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.18);border-radius:99px;padding:6px 11px;backdrop-filter:blur(6px)}
+.intro-logo{position:absolute;top:14px;left:22px;z-index:3}
+#s-intro .bottom{position:relative;z-index:2;flex-direction:column;background:none}
+#s-intro .bottom .btn{width:100%}
+.skip{background:none;border:0;color:#d9d0c0;font-size:13px;text-decoration:underline;min-height:40px}
+/* quiz */
+#s-quiz .qcard{margin-top:0;border:0;background:none;padding:6px 0 0}
+#s-quiz .opts{grid-template-columns:1fr 1fr !important}
+#s-quiz .opts.five .opt:last-child{grid-column:1/-1}
+#s-quiz .opt .art{height:70px}
+#s-quiz .opt.small .art{height:6px}
+/* compose */
+#s-compose{align-items:center;justify-content:center;text-align:center;padding:20px}
+#s-compose .ring{width:58px;height:58px;border-radius:50%;border:2px solid #3a342b;border-top-color:var(--gold);margin:0 auto 18px;animation:spin 1s linear infinite}
+#s-compose p{font-family:"Noto Serif KR",serif;font-size:20px}
+#s-compose small{color:var(--mute);font-size:13px;display:block;margin-top:6px}
+/* design */
+#s-design .stage3d{flex:1;min-height:0;height:auto}
+#s-design .sbar{border-top:1px solid var(--line)}
+#s-design .sbtn{font-size:12.5px;padding:8px 4px}
+#s-design .note{padding:12px 16px;max-height:110px;overflow:auto}
+#s-design .note .who{margin-bottom:4px}
+#s-design .note p{font-size:13px}
+/* room */
+#s-room .mrcard{margin-top:12px}
+/* done */
+#s-done .summary{margin:14px 0 8px}
+#s-done .copyrow{justify-content:flex-start}
+#s-done .track{padding:10px 20px 4px}
+#s-done .gcard{flex-basis:62%;aspect-ratio:4/5}
+#s-done .btn.kakao{width:100%;min-height:56px;font-size:16.5px}
+.smalllinks{font-size:12px;color:var(--mute);text-align:center;margin-top:14px}
+.smalllinks a{color:#8f877a;display:inline-block;padding:8px 6px}
+/* bottom sheet */
+.bsheet{position:fixed;inset:0;z-index:45;background:rgba(0,0,0,.6);display:none;align-items:flex-end;justify-content:center}
+.bsheet.show{display:flex}
+.bsheet .panel{width:100%;max-width:520px;max-height:82vh;overflow:auto;border-radius:24px 24px 0 0;padding:18px 18px calc(18px + env(safe-area-inset-bottom));animation:up .3s ease}
+@keyframes up{from{transform:translateY(40px);opacity:.4}to{transform:none;opacity:1}}
+.bsheet .grab{width:44px;height:4px;border-radius:4px;background:#3a342b;margin:0 auto 14px}
+.bsheet .sheet-btn{width:100%;margin-top:6px}
+.toast{bottom:110px}
+.app.rev .scr{transform:translateX(-28px)}
+.app.rev .scr.on{transform:none}
+.bsheet .panel{padding-bottom:0}
+.bsheet .sheet-btn{position:sticky;bottom:0;margin:10px 0 0;box-shadow:0 -14px 20px var(--bg2)}
+.bsheet .sheet-foot{position:sticky;bottom:0;background:var(--bg2);padding:10px 0 calc(16px + env(safe-area-inset-bottom))}
+#s-design .note{max-height:84px}
+.field input{min-height:40px}
+.presets button,.copybtn,.tb-kk{min-height:44px}
+.rng input{min-height:40px}
+#s-room .mrstage{aspect-ratio:4/3.1}
+#s-room .mrctl{gap:6px;padding:10px 14px}
+#s-room .rng{font-size:12px}
+details.privacy{padding:0 16px 14px}
+details.privacy summary{cursor:pointer;color:#bdb4a5;font-size:12px;min-height:40px;display:flex;align-items:center}
+
 </style>
 </head>
 <body>
+<div class="app">
+  <div class="topbar clear"><button class="tb-back" id="back" type="button" aria-label="뒤로">←</button><div class="prog"><i id="progI"></i></div><a class="tb-kk kk" href="https://pf.kakao.com/_Puscb/chat" target="_blank" rel="noopener">상담</a></div>
 
-<header>
-  <div class="logo">UBIS<small>PREMIUM CUSTOM FURNITURE</small></div>
-  <a class="hdr-link kk" href="https://pf.kakao.com/_Puscb/chat" target="_blank" rel="noopener">카톡 상담</a>
-</header>
-
-<section class="hero" id="hero">
-  <div class="hero-in">
-    <div class="eyebrow">UBIS DESIGN CONSULTING</div>
-    <h1>당신의 방을 위한,<br>단 하나의 맞춤장.</h1>
-    <p>질문 다섯 개에 답하시면 유비스 디자이너의 방식으로 시안을 구성해 3D로 보여드려요. 우리 방 사진 위에 직접 놓아볼 수도 있어요.</p>
-    <div class="cta">
-      <a class="btn gold" href="#consult">1분 디자인 상담 시작</a>
-      <a class="btn line" href="#studio">3D부터 볼게요</a>
+  <section class="scr on" id="s-intro">
+    <div id="hero" class="hero"></div>
+    <div class="intro-logo logo">UBIS<small>PREMIUM CUSTOM FURNITURE</small></div>
+    <div class="intro-in">
+      <div class="eyebrow">UBIS DESIGN CONSULTING</div>
+      <h1>당신의 방을 위한,<br>단 하나의 맞춤장.</h1>
+      <p>질문 5개면 디자이너가 시안을 구성해 3D로 보여드려요.</p>
+      <div class="badges"><span>1분이면 끝</span><span>3D 시안 무료</span><span>우리 방 사진에 놓아보기</span></div>
+      <div class="dots" id="dots"></div>
     </div>
-    <div class="dots" id="dots"></div>
-  </div>
-</section>
-
-<main class="wrap">
-  <!-- 무드 상담 -->
-  <section class="consult" id="consult">
-    <div class="eyebrow">STEP 1 · DESIGN CONSULTING</div>
-    <h2 class="t">먼저, 어떤 방을 꿈꾸세요?</h2>
-    <p class="sub">디자이너가 처음 상담할 때 여쭤보는 질문들이에요. 고르시는 대로 3D 시안에 그대로 반영돼요.</p>
-    <div class="qcard" id="qcard">
-      <div id="qbody"></div>
-      <div class="composing" id="composing"><div class="ring"></div><p>디자이너 시안을 구성하고 있어요</p><small id="compTxt">분위기에 맞는 소재와 조명을 고르는 중…</small></div>
-    </div>
+    <div class="bottom"><button class="btn gold" id="goStart" type="button">내 방 시안 만들기</button><button class="skip" id="goSkip" type="button">질문 없이 바로 3D 보기</button></div>
   </section>
 
-  <!-- 3D 스튜디오 -->
-  <section class="studio" id="studio">
-    <div class="eyebrow">STEP 2 · 3D PREVIEW</div>
-    <h2 class="t">우리 집에 들어갈 모습을<br>3D로 확인하세요</h2>
-    <p class="sub" id="moodLine">손가락으로 돌려 보고, 문을 열어 속까지 확인해 보세요.</p>
-    <div class="sgrid">
-      <div class="stagewrap">
-        <div class="stagecard">
-          <div class="stage3d" id="stage">
-            <div class="cam" id="cam"><div class="world" id="world"></div></div>
-            <div class="hud"><div class="pill" id="hudL"></div><div class="pill" id="hudR"></div></div>
-            <div class="drag" id="dragHint">↔ 손가락으로 돌려보세요</div>
-          </div>
-          <div class="sbar">
-            <button class="sbtn" id="bOpen" type="button">문 열어보기</button>
-            <button class="sbtn on" id="bLight" type="button">조명 켜짐</button>
-            <button class="sbtn" id="bFront" type="button">정면 보기</button>
-          </div>
-          <div class="note" id="note"></div>
-        </div>
-      </div>
-
-      <div class="panel">
-        <div class="step" id="moodSum" style="display:none">
-          <h3>내 취향<span>상담 답변</span></h3>
-          <div id="moodChips"></div>
-          <button class="redo" id="redo" type="button">상담 다시 하기</button>
-        </div>
-        <div class="step">
-          <h3>벽 크기<span>줄자로 잰 그대로 (mm)</span></h3>
-          <div class="dims">
-            <div class="field"><label for="inW">가로</label><div class="in"><input id="inW" inputmode="numeric" value="2400"><span class="u">mm</span></div></div>
-            <div class="field"><label for="inH">높이 (바닥~천장)</label><div class="in"><input id="inH" inputmode="numeric" value="2300"><span class="u">mm</span></div></div>
-          </div>
-          <div class="presets" id="presets"></div>
-          <div class="hint" id="dimHint">cm로 재셨다면 뒤에 0을 붙여 주세요. 예: 240cm → 2400</div>
-        </div>
-        <div class="step"><h3>품목</h3><div class="chips" id="prods"></div></div>
-        <div class="step"><h3>컬러</h3><div class="swatches" id="swatches"></div></div>
-        <div class="step"><h3>구성<span>이 사이즈에 어울리는 배치</span></h3><div class="vars" id="vars"></div></div>
-      </div>
-    </div>
+  <section class="scr" id="s-quiz">
+    <div class="scr-in"><div class="qcard" id="qcard"><div id="qbody"></div></div></div>
   </section>
 
-  <!-- 내 방 합성 -->
-  <section class="myroom" id="myroom">
-    <div class="eyebrow">STEP 3 · IN MY ROOM</div>
-    <h2 class="t">우리 방 사진 위에<br>직접 놓아보세요</h2>
-    <p class="sub">설치할 벽을 정면에서 찍은 사진을 올리고, 가구를 끌어서 벽에 맞춰 보세요.</p>
-    <div class="mrcard">
+  <section class="scr" id="s-size">
+    <div class="scr-in">
+      <div class="eyebrow">ALMOST DONE</div>
+      <h2 class="q2">설치할 벽 크기를<br>알려주세요</h2>
+      <p class="lead2">줄자로 잰 그대로 입력하시면 그 비율로 그려드려요.</p>
+      <div class="dims" style="margin-top:18px">
+        <div class="field"><label for="inW">가로</label><div class="in"><input id="inW" inputmode="numeric" value="2400"><span class="u">mm</span></div></div>
+        <div class="field"><label for="inH">높이 (바닥~천장)</label><div class="in"><input id="inH" inputmode="numeric" value="2300"><span class="u">mm</span></div></div>
+      </div>
+      <div class="presets" id="presets"></div>
+      <div class="hint" id="dimHint">cm로 재셨다면 뒤에 0을 붙여 주세요. 예: 240cm → 2400</div>
+      <button class="skip" id="sizeDefault" type="button" style="color:var(--mute);margin-top:10px">아직 안 재봤어요 → 보통 크기로 볼게요</button>
+    </div>
+    <div class="bottom"><button class="btn gold" id="goCompose" type="button">내 시안 만들기</button></div>
+  </section>
+
+  <section class="scr" id="s-compose">
+    <div><div class="ring"></div><p>디자이너 시안을 구성하고 있어요</p><small id="compTxt">분위기에 맞는 소재와 조명을 고르는 중…</small></div>
+  </section>
+
+  <section class="scr" id="s-design">
+    <div class="stage3d" id="stage">
+      <div class="cam" id="cam"><div class="world" id="world"></div></div>
+      <div class="hud"><div class="pill" id="hudL"></div><div class="pill" id="hudR"></div></div>
+      <div class="drag" id="dragHint">↔ 손가락으로 돌려보세요</div>
+    </div>
+    <div class="sbar">
+      <button class="sbtn" id="bOpen" type="button">문 열기</button>
+      <button class="sbtn on" id="bLight" type="button">조명 켜짐</button>
+      <button class="sbtn" id="bFront" type="button">정면</button>
+      <button class="sbtn" id="bEdit" type="button">디자인 바꾸기</button>
+    </div>
+    <div class="note" id="note"></div>
+    <div class="bottom"><button class="btn line" id="goRoom" type="button">우리 방에 놓기</button><button class="btn gold" id="goDone" type="button">이 시안으로 상담</button></div>
+  </section>
+
+  <section class="scr" id="s-room">
+    <div class="scr-in">
+      <div class="eyebrow">IN MY ROOM</div>
+      <h2 class="q2">우리 방 사진에<br>직접 놓아보세요</h2>
+      <p class="lead2">설치할 벽을 정면에서 찍은 사진이 가장 좋아요.</p>
+      <div class="mrcard">
       <div class="mrstage" id="mr">
         <div class="mrempty" id="mrEmpty">
-          <p>설치할 벽이 잘 보이게 정면에서 찍은 사진이 가장 좋아요.</p>
+          <p>사진을 올리면 3D 시안이 그 위에 올라가요. 손가락으로 끌어서 벽에 맞춰 보세요.</p>
           <label class="upl">방 사진 올리기<input type="file" accept="image/*" id="mrFile"></label>
         </div>
         <div class="arwrap" id="arWrap"><div class="arcam" id="arCam"><div class="world" id="arWorld"></div></div></div>
@@ -355,48 +419,40 @@ body.lbopen .dock{display:none}
         <button class="btn line" id="aiAgain" type="button" style="background:none">다른 구성으로 다시 만들기</button>
         <p>이미지를 길게 눌러 저장한 뒤 카톡으로 함께 보내 주시면 상담이 빨라져요.</p>
       </div>
-      <div class="privacy">3D 합성에 쓰는 사진은 이 화면 안에서만 쓰이고 저장·전송되지 않아요. AI 실사 시안을 요청하실 때만 시안 생성을 위해 AI 서버(OpenAI)로 보내지고, 유비스는 사진을 저장하지 않아요. 상담할 때 카톡으로 같은 사진을 보내 주시면 실측 후 정확한 도면으로 안내해 드려요.</div>
+      <details class="privacy"><summary>사진은 어떻게 쓰이나요?</summary>3D 합성에 쓰는 사진은 이 화면 안에서만 쓰이고 저장·전송되지 않아요. AI 실사 시안을 요청하실 때만 시안 생성을 위해 AI 서버(OpenAI)로 보내지고, 유비스는 사진을 저장하지 않아요. 상담할 때 카톡으로 같은 사진을 보내 주시면 실측 후 정확한 도면으로 안내해 드려요.</details>
+      </div>
+    </div>
+    <div class="bottom"><button class="btn gold" id="goDone2" type="button">다음: 상담 신청</button></div>
+  </section>
+
+  <section class="scr" id="s-done">
+    <div class="scr-in">
+      <div class="eyebrow">YOUR DESIGN</div>
+      <h2 class="q2">이 시안 그대로<br>무료 상담받으세요</h2>
+      <p class="lead2">버튼을 누르면 시안 내용이 자동 복사되고 카톡이 열려요. 붙여넣고 방 사진만 보내 주세요.</p>
+      <div class="summary" id="summary"></div>
+      <div class="copyrow"><span>카톡 창에서 <b style="color:var(--ink);font-weight:500">길게 눌러 붙여넣기</b></span><button type="button" class="copybtn" id="copyBtn">복사하기</button></div>
+      <a class="btn kakao kk" href="https://pf.kakao.com/_Puscb/chat" target="_blank" rel="noopener">카카오톡으로 무료 상담받기</a>
+      <div class="eyebrow" style="margin-top:26px">REAL WORKS</div>
+      <p class="lead2" id="galSub">실제로 시공한 공간들이에요.</p>
+      <div class="track" id="track"></div>
+      <p class="fine" style="text-align:center">3D·AI 시안은 이해를 돕기 위한 예상 이미지예요. 실제 구성과 치수는 실측 후 확정됩니다.</p>
+      <div class="smalllinks"><a href="https://ubis-simulator.netlify.app/" target="_blank" rel="noopener">참고용 견적 계산기</a> · <a href="https://www.iubis.net/index.html" target="_blank" rel="noopener">홈페이지</a> · <a href="https://litt.ly/ubis__design" target="_blank" rel="noopener">모든 링크</a></div>
     </div>
   </section>
+</div>
 
-  <!-- 갤러리 -->
-  <section class="gal">
-    <div class="eyebrow">REAL WORKS</div>
-    <h2 class="t">그림이 아니라,<br>이미 완성된 유비스의 집</h2>
-    <p class="sub" id="galSub">실제로 시공한 공간들이에요.</p>
-    <div class="track" id="track"></div>
-  </section>
+<div class="bsheet" id="sheetDesign">
+  <div class="panel">
+    <div class="grab"></div>
+    <div class="step" id="moodSum" style="display:none"><h3>내 취향<span id="moodLine"></span></h3><div id="moodChips"></div><button class="redo" id="redo" type="button">상담 다시 하기</button></div>
+    <div class="step"><h3>품목</h3><div class="chips" id="prods"></div></div>
+    <div class="step"><h3>컬러</h3><div class="swatches" id="swatches"></div></div>
+    <div class="step"><h3>구성<span>이 사이즈에 어울리는 배치</span></h3><div class="vars" id="vars"></div></div>
+    <div class="sheet-foot"><button class="btn gold" id="sheetClose" type="button" style="width:100%">적용하고 보기</button></div>
+  </div>
+</div>
 
-  <section class="proc">
-    <div class="eyebrow">HOW IT WORKS</div>
-    <h2 class="t">상담은 이렇게 진행돼요</h2>
-    <div class="steps3">
-      <div class="s3"><b>01</b><p>아래 버튼을 누르면 상담 답변과 3D 시안 내용이 <strong>자동으로 복사</strong>되고 카카오톡이 열려요.</p></div>
-      <div class="s3"><b>02</b><p>채팅창에 붙여넣고 <strong>방 사진 한두 장</strong>만 함께 보내 주세요.</p></div>
-      <div class="s3"><b>03</b><p>유비스가 사진과 치수를 보고 <strong>맞춤 도면과 견적</strong>을 안내해 드려요.</p></div>
-    </div>
-  </section>
-
-  <section class="final" id="final">
-    <div class="eyebrow">YOUR DESIGN</div>
-    <h2 class="t">이 시안 그대로<br>상담받아 보세요</h2>
-    <div class="summary" id="summary"></div>
-    <div class="copyrow"><span>버튼을 누르면 위 내용이 자동 복사돼요. 카톡 창에서 <b style="color:var(--ink);font-weight:500">길게 눌러 붙여넣기</b> 하세요.</span><button type="button" class="copybtn" id="copyBtn">복사하기</button></div>
-    <a class="btn kakao kk" href="https://pf.kakao.com/_Puscb/chat" target="_blank" rel="noopener">카카오톡으로 무료 상담받기</a>
-    <p style="margin-top:14px;font-size:12.5px"><a href="https://ubis-simulator.netlify.app/" target="_blank" rel="noopener" style="color:var(--mute)">참고용 견적 계산기 보기 →</a></p>
-    <p class="fine">3D 시안은 이해를 돕기 위한 예상 이미지예요. 실제 구성과 치수는 실측 후 확정됩니다.</p>
-  </section>
-</main>
-
-<footer>
-  유비스 · 공간의 가치를 높이는 프리미엄 맞춤 가구<br>
-  <a href="https://www.iubis.net/index.html" target="_blank" rel="noopener">홈페이지</a> · <a href="https://blog.naver.com/imminmin000" target="_blank" rel="noopener">블로그</a> · <a href="https://litt.ly/ubis__design" target="_blank" rel="noopener">모든 링크</a>
-</footer>
-
-<div class="dock" id="dock"><div class="in">
-  <div class="txt" id="dockTxt"></div>
-  <a class="btn kakao kk" href="https://pf.kakao.com/_Puscb/chat" target="_blank" rel="noopener">이 시안으로 상담</a>
-</div></div>
 <div class="modal" id="aiModal" role="dialog" aria-modal="true" aria-labelledby="aiTitle">
   <div class="sheet">
     <div class="eyebrow">AI PHOTOREAL PREVIEW</div>
@@ -414,7 +470,6 @@ body.lbopen .dock{display:none}
 </div>
 <div class="toast" id="toast"></div>
 <div class="lb" id="lb"><button class="lbx" type="button" aria-label="닫기">×</button><img id="lbImg" alt=""><p id="lbCap"></p></div>
-
 <script>
 const PHOTOS = [{"file": "photos/wallpanel-1.jpg", "category": "wallpanel", "caption_ko": "오렌지 벽판넬 & LED 선반"}, {"file": "photos/glass-1.jpg", "category": "glass", "caption_ko": "월넛 내부 블랙 프레임 쇼케이스"}, {"file": "photos/glass-2.jpg", "category": "glass", "caption_ko": "다크 월넛 쇼케이스 & 유리 아일랜드"}, {"file": "photos/glass-3.jpg", "category": "glass", "caption_ko": "월넛 아일랜드와 유리 쇼케이스장"}, {"file": "photos/glass-4.jpg", "category": "glass", "caption_ko": "화이트 프레임 유리 드레스룸"}, {"file": "photos/lighting-1.jpg", "category": "lighting", "caption_ko": "LED 라인 조명 선반 연출"}, {"file": "photos/lighting-2.jpg", "category": "lighting", "caption_ko": "세로 LED와 오크 서랍장"}, {"file": "photos/lighting-3.jpg", "category": "lighting", "caption_ko": "블랙 유리도어 속 LED 조명"}, {"file": "photos/lighting-4.jpg", "category": "lighting", "caption_ko": "화이트 유리장 LED 라인 조명"}, {"file": "photos/folding-2.jpg", "category": "folding", "caption_ko": "매끈한 그레이 폴딩도어 광폭장"}, {"file": "photos/open-1.jpg", "category": "open", "caption_ko": "화이트 오픈 선반 드레스룸"}, {"file": "photos/open-2.jpg", "category": "open", "caption_ko": "가변형 화이트 오픈 시스템"}, {"file": "photos/pet-1.jpg", "category": "pet", "caption_ko": "화이트 무광 PET 여닫이장"}, {"file": "photos/pet-2.jpg", "category": "pet", "caption_ko": "화이트 도어 & LED 내부 수납"}, {"file": "photos/pet-3.jpg", "category": "pet", "caption_ko": "화이트 PET 장과 롱 서랍장"}, {"file": "photos/pet-4.jpg", "category": "pet", "caption_ko": "도어 거울 & 상부 LED 여닫이장"}, {"file": "photos/pet-5.jpg", "category": "pet", "caption_ko": "그레이 PET장과 유리 포인트장"}, {"file": "photos/other-1.jpg", "category": "other", "caption_ko": "간접조명 거울 화장대 & 붙박이장"}];
 const KAKAO = "https://pf.kakao.com/_Puscb/chat";
@@ -719,21 +774,19 @@ const $=id=>document.getElementById(id);
 let qi=0;
 function renderQ(){
   const q=QUESTIONS[qi], body=$("qbody");
-  body.innerHTML = `<div class="qfade"><div class="qtop"><span class="qstep">QUESTION ${qi+1} / ${QUESTIONS.length}</span>${qi>0?'<button class="qback" type="button" id="qBack">← 이전</button>':''}</div>
-  <div class="bar"><i style="width:${(qi/QUESTIONS.length)*100}%"></i></div>
+  body.innerHTML = `<div class="qfade"><div class="qtop"><span class="qstep">QUESTION ${qi+1} / ${QUESTIONS.length}</span></div>
   <div class="q">${q.q}</div><div class="qhint">${q.hint}</div>
   <div class="opts ${q.five?"five":""}">${q.opts.map(o=>`<button type="button" class="opt ${o.art?"":"small"} ${S.ans[q.k]===o.k?"on":""}" data-k="${o.k}">${o.art?`<div class="art" style="background:${o.art}"></div>`:'<div class="art" style="background:linear-gradient(90deg,#c8a97e,#6b5638)"></div>'}<div class="tx"><strong>${o.t}</strong><em>${o.d}</em></div></button>`).join("")}</div></div>`;
   body.querySelectorAll(".opt").forEach(b=>b.onclick=()=>{ S.ans[q.k]=b.dataset.k; b.classList.add("on"); setTimeout(()=>{ if(qi<QUESTIONS.length-1){ qi++; renderQ(); } else finishQ(); },220); });
-  const bk=$("qBack"); if(bk) bk.onclick=()=>{ qi--; renderQ(); };
+  setProg();
 }
-function finishQ(){
-  $("qbody").style.display="none"; const c=$("composing"); c.classList.add("show"); $("qcard").scrollIntoView({block:"center",behavior:"smooth"});
+function finishQ(){ saveState(); go("size"); }
+function compose(){
+  readDims(); if(S.ans.mood) applyConsult();
+  update(); go("compose");
   const msgs=["분위기에 맞는 소재와 조명을 고르는 중…","수납 고민에 맞춰 칸을 나누는 중…","유비스 제작 규칙으로 치수를 맞추는 중…"];
-  let i=0; const it=setInterval(()=>{ i++; $("compTxt").textContent=msgs[i%msgs.length]; },650);
-  setTimeout(()=>{ clearInterval(it); applyConsult(); c.classList.remove("show"); $("qbody").style.display="";
-    $("qbody").innerHTML=`<div class="qfade" style="text-align:center;padding:10px 0"><div class="eyebrow">DESIGN READY</div><div class="q" style="margin:8px 0">${MOODS[S.mood].name} 시안이 준비됐어요</div><div class="qhint">아래 3D에서 바로 확인해 보세요.</div><a class="btn gold" href="#studio">3D 시안 보기</a></div>`;
-    update(); setTimeout(()=>{ document.getElementById("studio").scrollIntoView({behavior:"smooth"}); setTimeout(()=>{ if(!PRODUCTS[S.p].always) setOpen(true); setTimeout(()=>setOpen(false),2600); },900); },350);
-  },2000);
+  let i=0; $("compTxt").textContent=msgs[0]; const it=setInterval(()=>{ i++; $("compTxt").textContent=msgs[i%msgs.length]; },650);
+  setTimeout(()=>{ clearInterval(it); go("design"); setTimeout(()=>{ if(!PRODUCTS[S.p].always && PRODUCTS[S.p].doors!=="glass"){ setOpen(true); setTimeout(()=>setOpen(false),2600);} },700); },2100);
 }
 function renderPanel(){
   $("prods").innerHTML=Object.entries(PRODUCTS).map(([k,p])=>`<button type="button" class="chip ${S.p===k?"on":""}" data-k="${k}"><strong>${p.name}</strong><em>${p.sub}</em></button>`).join("");
@@ -800,9 +853,8 @@ function syncUI(){
   $("hudR").textContent=`${fmt(S.W)} × ${fmt(S.H)}mm`;
   $("note").innerHTML=`<div class="who"><div class="av">U</div><div><b>유비스 디자인 노트</b><small>${S.ans.mood?MOODS[S.mood].name+" 시안":"기본 시안"}</small></div></div><p>${designerNote()}</p>`;
   $("summary").textContent=summaryText();
-  $("dockTxt").innerHTML=`<b>${p.name} · ${COLORS[S.c].name}</b>${fmt(S.W)}×${fmt(S.H)}mm · ${v.name}`;
 }
-function update(){ renderPanel(); renderGallery(); layout(); arBuild(); syncUI(); }
+function update(){ saveState(); renderPanel(); renderGallery(); layout(); arBuild(); syncUI(); }
 
 /* hero */
 (function(){
@@ -822,8 +874,9 @@ document.querySelectorAll(".kk").forEach(a=>a.addEventListener("click",()=>copyS
 $("copyBtn").onclick=()=>copySum("복사됐어요. 카톡 채팅창에 붙여넣어 주세요.");
 $("bOpen").onclick=()=>setOpen(!S.open);
 $("bLight").onclick=()=>{S.light=!S.light;update();};
+$("bEdit").onclick=()=>openSheet();
 $("bFront").onclick=()=>{S.auto=false;S.yaw=0;S.pitch=-4;applyCam();};
-$("redo").onclick=()=>{qi=0;renderQ();document.getElementById("consult").scrollIntoView({behavior:"smooth"});};
+$("redo").onclick=()=>{qi=0;renderQ();closeSheet();go("quiz");};
 let dimT; ["inW","inH"].forEach(id=>$(id).addEventListener("input",()=>{clearTimeout(dimT);dimT=setTimeout(()=>{readDims();S.v=Math.min(S.v,2);update();},400);}));
 $("lb").onclick=()=>{$("lb").classList.remove("show");document.body.classList.remove("lbopen");};
 $("mrFile").onchange=e=>loadPhoto(e.target.files[0]);
@@ -833,8 +886,7 @@ $("rY").oninput=e=>{AR.yaw=+e.target.value;arApply();};
 $("rB").oninput=e=>{AR.b=e.target.value/100;arApply();};
 $("mrReset").onclick=()=>{AR.x=0;AR.y=0;AR.s=1;AR.yaw=0;$("rS").value=100;$("rY").value=0;arBuild();};
 let rzT; window.addEventListener("resize",()=>{clearTimeout(rzT);rzT=setTimeout(()=>{layout();arBuild();},200);});
-const io=new IntersectionObserver(es=>es.forEach(e=>{ if(e.target.id==="hero") $("dock").classList.toggle("show",!e.isIntersecting); }),{threshold:.15});
-io.observe($("hero"));
+
 
 
 /* ================= AI 실사 시안 ================= */
@@ -885,12 +937,66 @@ $("aiCancel").onclick=closeAiModal;
 $("aiModal").addEventListener("click",e=>{ if(e.target.id==="aiModal") closeAiModal(); });
 $("aiGo").onclick=runAi;
 ["aiName","aiPhone","aiConsent"].forEach(id=>$(id).addEventListener("input",()=>$("aiErr").textContent=""));
-$("aiAgain").onclick=()=>{ $("ba").classList.remove("show"); document.getElementById("studio").scrollIntoView({behavior:"smooth"}); toast("구성이나 컬러를 바꾼 뒤 다시 AI 시안을 만들어 보세요."); };
+$("aiAgain").onclick=()=>{ $("ba").classList.remove("show"); go("design"); openSheet(); toast("구성이나 컬러를 바꾼 뒤 다시 AI 시안을 만들어 보세요."); };
 $("baCut").oninput=e=>$("ba").style.setProperty("--cut",e.target.value+"%");
 $("baClose").onclick=()=>$("ba").classList.remove("show");
 $("aiPhone").addEventListener("input",e=>{ const d=e.target.value.replace(/[^0-9]/g,"").slice(0,11); e.target.value=d.length>7?`${d.slice(0,3)}-${d.slice(3,d.length-4)}-${d.slice(-4)}`:d.length>3?`${d.slice(0,3)}-${d.slice(3)}`:d; });
 
-renderQ(); renderPresets(); update();
+
+/* ================= 화면 이동 (앱 방식) ================= */
+const SCREENS=["intro","quiz","size","compose","design","room","done"];
+const ORDER={intro:0,quiz:1,size:2,compose:3,design:4,room:5,done:6};
+let cur="intro";
+function setProg(){
+  const base={intro:0,quiz:0,size:62,compose:72,design:80,room:90,done:100}[cur];
+  const p = cur==="quiz" ? 8+(qi/QUESTIONS.length)*50 : base;
+  $("progI").style.width=p+"%";
+  document.querySelector(".topbar").classList.toggle("clear",cur==="intro");
+  $("back").style.visibility=(cur==="intro"||cur==="compose")?"hidden":"visible";
+}
+function saveState(){ try{ sessionStorage.setItem("ubisState",JSON.stringify({S:{p:S.p,W:S.W,H:S.H,c:S.c,v:S.v,light:S.light,mood:S.mood,ans:S.ans},qi,cur})); }catch(e){} }
+function show(name){
+  if(!SCREENS.includes(name)) name="intro";
+  $("sheetDesign").classList.remove("show");
+  document.querySelector(".app").classList.toggle("rev", ORDER[name]<ORDER[cur]);
+  cur=name;
+  document.querySelectorAll(".scr").forEach(s=>s.classList.toggle("on",s.id==="s-"+name));
+  setProg();
+  if(name==="design"){ requestAnimationFrame(()=>{ layout(); syncUI(); }); }
+  if(name==="room"){ requestAnimationFrame(()=>arBuild()); }
+  if(name==="done"){ syncUI(); renderGallery(); }
+  saveState();
+}
+// 앞으로 갈 때만 기록을 쌓고, 뒤로는 브라우저 기록을 따름 (compose 화면은 기록하지 않음)
+function go(name){
+  if(name==="compose"){ show("compose"); return; }
+  try{ if(location.hash!=="#"+name){ location.hash=name; return; } }catch(e){}
+  show(name);
+}
+window.addEventListener("hashchange",()=>{ let n=(location.hash||"#intro").slice(1); if(n==="compose") n="size"; if(n!==cur) show(n); });
+$("back").onclick=()=>{
+  if(cur==="quiz" && qi>0){ qi--; renderQ(); saveState(); return; }
+  if(history.length>1) history.back(); else show("intro");
+};
+function openSheet(){ $("sheetDesign").classList.add("show"); }
+function closeSheet(){ $("sheetDesign").classList.remove("show"); layout(); arBuild(); }
+$("sheetClose").onclick=closeSheet;
+$("sheetDesign").addEventListener("click",e=>{ if(e.target.id==="sheetDesign") closeSheet(); });
+$("goStart").onclick=()=>{ qi=0; renderQ(); go("quiz"); };
+$("goSkip").onclick=()=>{ go("size"); };
+$("goCompose").onclick=compose;
+$("goRoom").onclick=()=>go("room");
+$("goDone").onclick=()=>go("done");
+$("goDone2").onclick=()=>go("done");
+$("sizeDefault").onclick=()=>{ $("inW").value=2400; $("inH").value=2300; compose(); };
+
+renderPresets();
+(function restore(){
+  let st=null; try{ st=JSON.parse(sessionStorage.getItem("ubisState")||"null"); }catch(e){}
+  let n=(location.hash||"").slice(1); if(n==="compose") n="size";
+  if(st && SCREENS.includes(n) && n!=="intro"){ Object.assign(S,st.S); qi=Math.min(st.qi||0,QUESTIONS.length-1); $("inW").value=S.W; $("inH").value=S.H; renderQ(); update(); show(n); }
+  else { renderQ(); update(); try{ history.replaceState(null,"","#intro"); }catch(e){} show("intro"); }
+})();
 </script>
 </body>
 </html>
