@@ -22,11 +22,15 @@ export function todayKST(now = Date.now()) {
 }
 
 const PRODUCT_EN = {
-  pet: "flat slab hinged doors with a smooth PET film finish",
-  glass: "glass showcase doors in slim aluminium frames, interior visible through the glass",
-  folding: "wide bi-fold doors (folding doors) across each section",
-  open: "an open built-in system with no doors, like a walk-in dressroom",
-  wallpanel: "handle-less doors that read as a continuous flat wall panel, joints barely visible",
+  wallpanel: "a premium wall-panel dressroom: flat wall panels across the wall with integrated open shelving and hanging rails, warm LED lines",
+  glass: "a showcase wardrobe with tinted glass doors in slim dark aluminium frames, interior and clothes visible through the glass, LED-lit shelves",
+  hybrid: "a hybrid wardrobe: mostly flat matte PET slab doors with one tinted glass-door showcase section in the middle",
+  wide: "an extra-wide wardrobe with large flat doors that open fully so everything is visible at once",
+  newcastle: "a system wardrobe with flat slab doors and built-in LED lighting inside, adjustable interior",
+  hinge: "a clean built-in wardrobe with flat slab hinged doors, minimal slim handles",
+  open: "an open built-in system with no doors, like a walk-in dressroom, wooden shelves and hanging rails",
+  sliding: "a built-in wardrobe with large flat sliding doors",
+  multi: "a multi-purpose built-in unit combining wardrobe doors with an open desk or vanity niche",
 };
 const COLOR_EN = {
   white: "matte white",
@@ -59,7 +63,7 @@ export function clampDesign(d = {}) {
   const H = Math.round(Number(d.H));
   const mods = Array.isArray(d.mods) ? d.mods.filter((m) => own(MOD_EN, m)).slice(0, 12) : [];
   return {
-    product: own(PRODUCT_EN, d.product) ? d.product : "pet",
+    product: own(PRODUCT_EN, d.product) ? d.product : "hinge",
     color: own(COLOR_EN, d.color) ? d.color : "white",
     W: W >= 600 && W <= 8000 ? W : 2400,
     H: H >= 1800 && H <= 3000 ? H : 2300,
@@ -76,13 +80,13 @@ export function buildPrompt(d) {
     ? d.mods.map((m, i) => `${i + 1}) ${MOD_EN[m]}`).join("; ")
     : "balanced mix of hanging space, drawers and shelves";
   const doorRule =
-    d.product === "pet" || d.product === "glass" || d.product === "wallpanel"
+    d.product !== "open"
       ? `Each section is about ${Math.round(d.W / Math.max(1, d.mods.length || 1))} mm wide; sections wider than 600 mm have two doors, narrower ones a single door.`
       : "";
   return [
     "Edit this photo of a real room. Keep the room exactly as it is: same walls, floor, ceiling, windows, existing lighting, camera position and perspective.",
     `Install a custom floor-to-ceiling built-in wardrobe on the main wall facing the camera. It spans about ${d.W} mm wide and ${d.H} mm high (floor to ceiling), 600 mm deep, fitted flush wall-to-wall with a slim top filler and a recessed baseboard.`,
-    `Doors/style: ${pick(PRODUCT_EN, d.product, PRODUCT_EN.pet)}. Finish: ${pick(COLOR_EN, d.color, COLOR_EN.white)}.`,
+    `Doors/style: ${pick(PRODUCT_EN, d.product, PRODUCT_EN.hinge)}. Finish: ${pick(COLOR_EN, d.color, COLOR_EN.white)}.`,
     `Vertical sections from left to right: ${sections}.`,
     doorRule,
     d.light
