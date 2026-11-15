@@ -245,7 +245,7 @@ body.lbopen .dock{display:none}
 /* ===== 앱 레이아웃 ===== */
 html,body{height:100%;overflow:hidden;padding-bottom:0 !important}
 body{background:#070605}
-.app{position:fixed;inset:0;max-width:520px;margin:0 auto;background:var(--bg);overflow:hidden;box-shadow:0 0 0 1px #1c1a16}
+.app{position:fixed;inset:0;max-width:520px;margin:0 auto;background:var(--bg);overflow:hidden;overflow:clip;box-shadow:0 0 0 1px #1c1a16}
 .topbar{position:absolute;left:0;right:0;top:0;height:56px;padding:0 10px calc(0px);display:flex;align-items:center;gap:10px;z-index:20;background:var(--bg);transition:background .3s}
 .topbar.clear{background:transparent}
 .tb-back{width:44px;height:44px;border:0;background:none;color:var(--ink);font-size:22px;border-radius:12px}
@@ -309,6 +309,39 @@ h2.q2{font-family:"Noto Serif KR",serif;font-weight:500;font-size:clamp(23px,6vw
 .bsheet .grab{width:44px;height:4px;border-radius:4px;background:#3a342b;margin:0 auto 14px}
 .bsheet .sheet-btn{width:100%;margin-top:6px}
 .toast{bottom:110px}
+.sw3d{border-radius:22%;background:linear-gradient(145deg,#fbf8f1,#e3dccd);box-shadow:0 1px 2px rgba(0,0,0,.35),inset 0 0 0 1px rgba(255,255,255,.6);cursor:pointer}
+.sw3d::before{content:"";position:absolute;inset:-70%;border-radius:50%}
+.sw3d .knob{position:absolute;left:28%;right:28%;top:18%;height:40%;border-radius:30%;background:linear-gradient(180deg,#fff,#d9d1c1);box-shadow:0 2px 3px rgba(0,0,0,.3);transition:transform .25s;transform:translateY(55%)}
+.sw3d.on .knob{transform:translateY(0)}
+.sw3d .dot{position:absolute;left:50%;bottom:12%;width:16%;aspect-ratio:1;border-radius:50%;transform:translateX(-50%);background:#9a9183}
+.sw3d.on .dot{background:#ffcf6e;box-shadow:0 0 6px 2px rgba(255,200,100,.9)}
+.sw3d::after{content:"";position:absolute;inset:-30%;border-radius:50%;border:2px solid rgba(230,211,173,.9);animation:swp 1.8s ease-out infinite;pointer-events:none}
+@keyframes swp{from{transform:scale(.6);opacity:.9}to{transform:scale(1.3);opacity:0}}
+.outlet{border-radius:18%;background:linear-gradient(145deg,#fbf8f1,#e3dccd);box-shadow:0 1px 2px rgba(0,0,0,.3)}
+.outlet::before,.outlet::after{content:"";position:absolute;top:42%;width:12%;height:16%;border-radius:50%;background:#7d766b}
+.outlet::before{left:28%}.outlet::after{right:28%}
+.swb{position:absolute;right:12px;top:52px;z-index:4;max-width:220px;background:rgba(12,11,9,.82);backdrop-filter:blur(8px);border:1px solid rgba(230,211,173,.35);border-radius:14px;padding:9px 12px;font-size:11.5px;color:#e9e2d4;opacity:0;transform:translateY(-6px);transition:.3s;pointer-events:none}
+.swb.show{opacity:1;transform:none}
+.swb b{display:block;color:var(--gold2);font-size:13px;font-weight:600}
+.swhint{position:absolute;right:12px;bottom:52px;z-index:3;font-size:11px;color:#f1e6cf;background:rgba(12,11,9,.6);border-radius:99px;padding:5px 10px;pointer-events:none}
+/* 컬러 믹스 */
+.ptabs{display:flex;gap:6px;margin-bottom:10px}
+.ptabs button{flex:1;border:1px solid var(--line);background:#12110e;border-radius:12px;padding:9px 6px;font-size:12.5px;min-height:44px;display:flex;align-items:center;justify-content:center;gap:6px}
+.ptabs button i{width:16px;height:16px;border-radius:50%;box-shadow:0 0 0 1px #3a362e}
+.ptabs button.on{border-color:var(--gold);color:var(--gold2);background:#211c15}
+.sgrp{font-size:11px;color:var(--mute);margin:10px 0 6px;letter-spacing:.06em}
+.swg{display:grid;grid-template-columns:repeat(auto-fill,minmax(58px,1fr));gap:8px}
+.swg .sw{width:auto}
+.swg .sw span{font-size:10px;line-height:1.3;text-align:center;word-break:keep-all}
+.combos{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none}
+.combos::-webkit-scrollbar{display:none}
+.combo{flex:0 0 auto;border:1px solid var(--line);background:#12110e;border-radius:14px;padding:9px 10px;text-align:left;min-width:132px}
+.combo .chips3{display:flex;margin-bottom:6px}
+.combo .chips3 i{width:22px;height:22px;border-radius:50%;margin-right:-6px;box-shadow:0 0 0 2px #12110e}
+.combo strong{display:block;font-size:12.5px;font-weight:500}
+.combo em{font-style:normal;font-size:10.5px;color:var(--mute);display:block;line-height:1.35}
+.cnote{font-size:11px;color:var(--mute);margin-top:8px}
+
 .real{flex:1;min-height:0;position:relative;overflow:hidden;background:#0b0a09}
 .rtrack{position:absolute;inset:0;display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none}
 .rtrack::-webkit-scrollbar{display:none}
@@ -397,6 +430,7 @@ details.privacy summary{cursor:pointer;color:#bdb4a5;font-size:12px;min-height:4
       <div class="cam" id="cam"><div class="world" id="world"></div></div>
       <div class="hud"><div class="pill" id="hudL"></div><div class="pill" id="hudR"></div></div>
       <div class="drag" id="dragHint">↔ 손가락으로 돌려보세요</div>
+      <div class="swb" id="swBubble"></div><div class="swhint" id="swHint">왼쪽 벽 스위치를 눌러 보세요 💡</div>
     </div>
     <div class="sbar">
       <button class="sbtn on" id="bReal" type="button">실사 시안</button>
@@ -474,7 +508,7 @@ details.privacy summary{cursor:pointer;color:#bdb4a5;font-size:12px;min-height:4
     <div class="grab"></div>
     <div class="step" id="moodSum" style="display:none"><h3>내 취향<span id="moodLine"></span></h3><div id="moodChips"></div><button class="redo" id="redo" type="button">상담 다시 하기</button></div>
     <div class="step"><h3>품목</h3><div class="chips" id="prods"></div></div>
-    <div class="step"><h3>컬러</h3><div class="swatches" id="swatches"></div></div>
+    <div class="step"><h3>컬러 믹스<span>문·몸통·내부를 마음대로 조합해요</span></h3><div class="sgrp">추천 조합 (참고용)</div><div class="combos" id="combos"></div><div class="ptabs" id="ptabs"></div><div id="swatches"></div><p class="cnote">한솔 스토리보드·예림 LUX PET 색상이에요. 화면 색은 실제 샘플과 다를 수 있어 상담 때 실물 샘플로 확인해 드려요.</p></div>
     <div class="step"><h3>구성<span>이 사이즈에 어울리는 배치</span></h3><div class="vars" id="vars"></div></div>
     <div class="sheet-foot"><button class="btn gold" id="sheetClose" type="button" style="width:100%">적용하고 보기</button></div>
   </div>
@@ -515,14 +549,33 @@ const PRODUCTS = {
 };
 const HP = {"wallpanel": [["photos/hp-wallpanel-1.jpg", "warm"], ["photos/hp-wallpanel-2.jpg", "bright"], ["photos/hp-wallpanel-3.jpg", "bright"], ["photos/hp-wallpanel-4.jpg", "bright"]], "opendress": [["photos/hp-opendress-1.jpg", "dark"]], "open": [["photos/hp-open-1.jpg", "wood"], ["photos/hp-open-2.jpg", "bright"], ["photos/hp-open-3.jpg", "wood"]], "glass": [["photos/hp-glass-1.jpg", "dark"], ["photos/hp-glass-2.jpg", "dark"], ["photos/hp-glass-3.jpg", "dark"], ["photos/hp-glass-4.jpg", "dark"], ["photos/hp-glass-5.jpg", "wood"], ["photos/hp-glass-6.jpg", "dark"]], "hybrid": [["photos/hp-hybrid-1.jpg", "bright"], ["photos/hp-hybrid-2.jpg", "dark"], ["photos/hp-hybrid-3.jpg", "bright"], ["photos/hp-hybrid-4.jpg", "bright"]], "wide": [["photos/hp-wide-1.jpg", "wood"], ["photos/hp-wide-2.jpg", "dark"], ["photos/hp-wide-3.jpg", "bright"], ["photos/hp-wide-4.jpg", "bright"], ["photos/hp-wide-5.jpg", "dark"]], "newcastle": [["photos/hp-newcastle-1.jpg", "bright"], ["photos/hp-newcastle-2.jpg", "bright"], ["photos/hp-newcastle-3.jpg", "dark"]], "hinge": [["photos/hp-hinge-1.jpg", "bright"], ["photos/hp-hinge-2.jpg", "bright"], ["photos/hp-hinge-3.jpg", "bright"], ["photos/hp-hinge-4.jpg", "bright"]], "sliding": [["photos/hp-sliding-1.jpg", "bright"], ["photos/hp-sliding-2.jpg", "bright"], ["photos/hp-sliding-3.jpg", "bright"]], "multi": [["photos/hp-multi-1.jpg", "wood"], ["photos/hp-multi-2.jpg", "wood"], ["photos/hp-multi-3.jpg", "wood"]]};
 HP.open = HP.open.concat(HP.opendress||[]);
-const COLORS = {
-  white:{name:"화이트 무광", door:"#f2efea", in:"#efebe4", frame:"#c9c6c0"},
-  ivory:{name:"아이보리", door:"#ede4d3", in:"#f1ebdf", frame:"#cbbfa8"},
-  greige:{name:"그레이지", door:"#cfc6b8", in:"#e7e0d5", frame:"#a9a092"},
-  oak:{name:"오크", door:"#c4a07a", in:"#ece2d2", grain:"#b08b63", frame:"#9a7a55"},
-  walnut:{name:"월넛", door:"#6a4a34", in:"#5e4230", grain:"#56392a", frame:"#2a2826"},
-  black:{name:"블랙", door:"#2c2b29", in:"#3a332c", frame:"#1d1c1b"}
-};
+/* 한솔 스토리보드 · 예림 LUX PET 색상 (화면 표시는 근사색) */
+const PALETTE = [
+  ["white","퍼팩트화이트","한솔","#f4f3ef","bright"],["dove","도브화이트","한솔","#ecebe6","bright"],["truepearl","트루펄화이트","한솔","#f1efe8","bright"],
+  ["ivory","크림화이트","한솔","#efe6d4","bright"],["satinbeige","새틴베이지","한솔","#e1d5c1","bright"],["ashbeige","애쉬베이지","한솔","#d5cab9","bright"],
+  ["greige","샌드그레이","한솔","#cbc2b4","bright"],["lightgrey","라이트그레이","한솔","#d2d2ce","bright"],["fog","포그그레이","한솔","#b8b6b0","bright"],
+  ["mono","모노그레이","한솔","#8d8c88","dark"],["darkgrey","다크그레이","한솔","#5a5a58","dark"],["black","럭스블랙","한솔","#262626","dark"],
+  ["mist","미스트그린","한솔","#c7d1c1","bright"],["jasper","재스퍼그린","한솔","#6e8977","dark"],["olive","스모키올리브","한솔","#7a795d","dark"],
+  ["cotton","코튼블루","한솔","#b8c6d2","bright"],["indigo","인디고블루","한솔","#2f3f5c","dark"],["rosy","로지핑크","한솔","#e4c8c2","bright"],
+  ["concrete","콘크리트화이트","한솔","#d8d5ce","bright"],
+  ["ypflat","새틴 플랫화이트","예림","#f2f1ec","bright"],["ypflower","새틴 플라워블루","예림","#8da2c3","bright"],["ypnavy","새틴 미드나잇블루","예림","#26324a","dark"],
+  ["ypgrey","새틴 미드나잇그레이","예림","#3b3d42","dark"],["ypmarm","새틴 마멀레이드","예림","#d8762e","warm"],
+  ["oak","메종라이트오크","한솔 우드","#c9a87f","wood","#b6936a"],["baynat","베이내추럴오크","한솔 우드","#b78f5e","wood","#a27a4b"],
+  ["calf","칼프브라운우드","한솔 우드","#7a5640","wood","#674632"],["walnut","테네시다크월넛","한솔 우드","#5a3f2e","wood","#493224"]
+];
+function lighten(hex,a){ const n=parseInt(hex.slice(1),16); const f=c=>Math.round(c+(255-c)*a); return "#"+[n>>16,(n>>8)&255,n&255].map(f).map(c=>c.toString(16).padStart(2,"0")).join(""); }
+function darken(hex,a){ const n=parseInt(hex.slice(1),16); const f=c=>Math.round(c*(1-a)); return "#"+[n>>16,(n>>8)&255,n&255].map(f).map(c=>c.toString(16).padStart(2,"0")).join(""); }
+const COLORS = Object.fromEntries(PALETTE.map(([k,name,brand,hex,tone,grain])=>[k,{name,brand,door:hex,in:lighten(hex,.12),frame: tone==="dark"||tone==="wood" ? darken(hex,.35) : darken(hex,.22), grain, tone}]));
+const COMBOS = [
+  {name:"호텔 웜톤", d:"greige", b:"greige", i:"oak", why:"샌드그레이 도어에 오크 내부로 따뜻하게"},
+  {name:"갤러리 화이트", d:"white", b:"white", i:"white", why:"퍼팩트화이트로 벽처럼 깨끗하게"},
+  {name:"럭셔리 다크", d:"black", b:"black", i:"walnut", why:"럭스블랙과 다크월넛의 깊은 대비"},
+  {name:"내추럴 우드", d:"oak", b:"oak", i:"ivory", why:"메종라이트오크에 크림화이트로 편안하게"},
+  {name:"크림 & 인디고", d:"ivory", b:"ivory", i:"indigo", why:"크림화이트에 인디고 포인트"},
+  {name:"플랫 & 마멀레이드", d:"ypflat", b:"ypflat", i:"ypmarm", why:"화이트 속 오렌지 포인트 (예림 연출 예시)"},
+  {name:"미스트 그린", d:"mist", b:"satinbeige", i:"oak", why:"미스트그린 도어에 베이지 몸통"},
+  {name:"모던 그레이", d:"fog", b:"darkgrey", i:"calf", why:"포그그레이와 칼프브라운우드"}
+];
 const MOODS = {
   luxe:{name:"럭셔리 편집숍", desc:"블랙 프레임 유리, 진열 조명", art:"url(photos/hp-glass-1.jpg) center/cover",
     floor:["#2a2622","#34302b"], wall:"#3b3631", ceil:"#2c2925", prod:"glass", color:"black", props:"bags", dim:.6},
@@ -549,7 +602,7 @@ const QUESTIONS = [
 ];
 const PHOTO_CAT = {wallpanel:["wallpanel","lighting"],glass:["glass","lighting"],hybrid:["glass","pet"],wide:["folding","pet"],newcastle:["lighting","pet"],hinge:["pet","other"],open:["open","lighting"],sliding:["pet","other"],multi:["pet","other"]};
 
-const S = {p:"hinge", W:2400, H:2300, c:"white", v:0, light:true, open:false, mood:"hotel", ans:{}, yaw:-22, pitch:-7, auto:true};
+const S = {p:"hinge", W:2400, H:2300, c:"white", cb:"white", ci:"white", part:"d", v:0, light:true, open:false, mood:"hotel", ans:{}, yaw:-22, pitch:-7, auto:true};
 
 /* ================= 구성 ================= */
 const fmt=n=>n.toLocaleString("ko-KR");
@@ -581,6 +634,8 @@ function applyConsult(){
   const toneMap={bright:a.mood==="hotel"||a.mood==="classic"?"ivory":"white", wood:(a.mood==="luxe"||a.mood==="classic")?"walnut":"oak", calm:"greige", dark:"black"};
   S.c=toneMap[a.tone]||m.color;
   if(p==="glass" && S.c!=="black" && S.c!=="white") S.c = a.tone==="wood"?"walnut":"white";
+  const moodCombo={luxe:["black","walnut"],hotel:["greige","oak"],gallery:["white","white"],natural:["oak","ivory"],classic:["ivory","walnut"]}[S.mood]||[S.c,S.c];
+  S.cb = S.c; S.ci = moodCombo[1];
   S.light = a.light!=="none";
   S.v=recVariant(); S.open=false; S.yaw=-22; S.pitch=-7;
 }
@@ -637,7 +692,7 @@ function build(world, k, opt){
     if(L) plane(world,k,`background:radial-gradient(50% 60% at 50% 0%,rgba(255,200,120,.22),transparent 70%)`, W+400, 900, `translate3d(${-200*k}px,-1px,${0}px) rotateX(90deg)`);
     // 뒷벽 (장 뒤로 살짝 보임) & 측벽
     plane(world,k,`background:linear-gradient(180deg,${shade(mood.wall,dim*.8)},${shade(mood.wall,dim*1.08)} 70%,${shade(mood.wall,dim*.9)})`, W+ext*2, H+1800, `translate3d(${-ext*k}px,${-(H+1800)*k}px,${(-D-2)*k}px)`);
-    plane(world,k,`background:linear-gradient(90deg,${shade(mood.wall,dim*.86)},${shade(mood.wall,dim*.95)})`, D+40, H, `translate3d(${-2*k}px,${-H*k}px,${-D*k}px) rotateY(-90deg)`);
+    plane(world,k,`background:linear-gradient(90deg,${shade(mood.wall,dim*.86)},${shade(mood.wall,dim*.95)})`, D+340, H, `translate3d(${-2*k}px,${-H*k}px,${-D*k}px) rotateY(-90deg)`);
     plane(world,k,`background:linear-gradient(90deg,${shade(mood.wall,dim*.8)},${shade(mood.wall,dim*.9)})`, D+40, H, `translate3d(${(W+2)*k}px,${-H*k}px,${-D*k}px) rotateY(-90deg)`);
     // 천장 + 다운라이트
     const dl = L ? Array.from({length:Math.max(2,Math.round(W/900))},(_,i,arr,nL=Math.max(2,Math.round(W/900)))=>`radial-gradient(circle at ${((i+.5)/nL)*100}% 55%,rgba(255,236,200,.95) 0 ${14*k}px,rgba(255,210,150,.25) ${16*k}px,transparent ${120*k}px)`).join(",")+"," : "";
@@ -649,19 +704,28 @@ function build(world, k, opt){
   }
 
   const TOP=40, BASE=60, IH=H-TOP-BASE;
-  const inC = (S.p==="glass"&&S.c==="black") ? COLORS.walnut.in : col.in;
-  const bodyFill = f=>surf(col,f);
-  // 상부 몰딩, 걸레받이(써걸)
-  box(world,k,0,H-TOP,-D,W,TOP,D+20,bodyFill,"f b");
-  box(world,k,0,0,-D,W,BASE,D-30,f=>shade(col.frame,f*.9),"f t");
-  // 뒷판 + 칸
+  const bcol=COLORS[S.cb]||col, icol=COLORS[S.ci]||col;
+  const inC = icol.door;
+  const bodyFill = f=>surf(bcol,f);
   const v=variants()[Math.min(S.v,2)], n=v.mods.length, mw=W/n;
   const inside = prod.always || prod.doors==="glass" || S.open;
+  if(opt.room) lightSwitch(world,k,W,H,D);
+  // 벽판넬 드레스룸: 벽에 밀착, 세로 지지대 없음, 선반마다 라인조명 (쇼룸)
+  if(S.p==="wallpanel"){
+    const WD=420;
+    plane(world,k,`background:repeating-linear-gradient(90deg,transparent 0 ${598*k}px,rgba(0,0,0,.16) ${598*k}px ${600*k}px),${surf(bcol,dim**.35)}`, W, H, `translate3d(0px,${-H*k}px,${(-D+8)*k}px)`);
+    if(L) plane(world,k,`background:radial-gradient(80% 50% at 50% 20%,rgba(255,214,140,.30),transparent 75%)`, W, H, `translate3d(0px,${-H*k}px,${(-D+3)*k}px)`);
+    for(let i=0;i<n;i++) interior(world,k,v.mods[i],i*mw+30,80,-D,mw-60,H-200,WD,bcol,inC,LED,L,{...opt,wall:true});
+    return regs;
+  }
+  // 상부 몰딩, 걸레받이(써걸)
+  box(world,k,0,H-TOP,-D,W,TOP,D+20,bodyFill,"f b");
+  box(world,k,0,0,-D,W,BASE,D-30,f=>shade(bcol.frame,f*.9),"f t");
   for(let i=0;i<n;i++){
     const x=i*mw;
     plane(world,k,`background:linear-gradient(180deg,${shade(inC,.82*dim**.3)},${shade(inC,.95)})`, mw, IH, `translate3d(${x*k}px,${-(H-TOP)*k}px,${-D*k}px)`);
     if(L) plane(world,k,`background:radial-gradient(70% 55% at 50% 8%,rgba(255,214,140,.40),transparent 75%)`, mw, IH, `translate3d(${x*k}px,${-(H-TOP)*k}px,${(-D+2)*k}px)`);
-    interior(world,k,v.mods[i],x,BASE,-D,mw,IH,D,col,inC,LED,L,opt);
+    interior(world,k,v.mods[i],x,BASE,-D,mw,IH,D,bcol,inC,LED,L,opt);
   }
   // 측판 / 칸막이 18T
   for(let i=0;i<=n;i++){
@@ -683,7 +747,7 @@ function build(world, k, opt){
 
 function interior(world,k,type,x,y,z,w,h,D,col,inC,LED,L,opt){
   const rodC="#2a2826";
-  const sh=(yy)=>{ box(world,k,x,yy,z,w,18,D-20,f=>shade(inC,f),"f t b"); if(L) plane(world,k,LED, w-50, 5, `translate3d(${(x+25)*k}px,${-(yy-2)*k}px,${-40*k}px)`); };
+  const sh=(yy)=>{ box(world,k,x,yy,z,w,18,D-20,f=>shade(inC,f),"f t b"); if(L) plane(world,k,LED, w-50, 5, `translate3d(${(x+25)*k}px,${-(yy-2)*k}px,${(z+D-40)*k}px)`); };
   const rod=(yy)=>box(world,k,x+20,yy,z+D/2-15,w-40,16,16,rodC,"f b");
   const tones=S.mood==="luxe"?["#1f1d1b","#6d5a48","#d8cbb6","#3a3633","#a48463","#efe7da"]:S.mood==="natural"?["#e6dccb","#b9a78c","#8f8a7c","#f2ece2","#c8b89c","#6d7062"]:["#d9d1c4","#8c8579","#3e3b37","#b7ab98","#efe9df","#6f665c"];
   const clothes=(top,len)=>{ const cnt=Math.max(3,Math.floor((w-60)/(S.W>4000?150:90))); for(let j=0;j<cnt;j++){ const cx=x+40+j*((w-80-34)/Math.max(1,cnt-1)); const l=len*(0.74+((j*37+Math.round(x))%25)/100); const c=tones[(j+Math.round(x/97))%tones.length]; const cwid=26+((j*13)%16); box(world,k,cx,top-l,z+70+((j*29)%40),cwid,l,D-170,c,"f l r");} };
@@ -696,7 +760,7 @@ function interior(world,k,type,x,y,z,w,h,D,col,inC,LED,L,opt){
   else if(type==="double"){ const s=y+h-300; sh(s); rod(s-66); const m=y+(h-300)/2; clothes(s-66, Math.min(820,s-66-m-90)); sh(m); rod(m-66); clothes(m-66, Math.min(820,m-66-y-60)); }
   else if(type==="drawer"){ const used=drawers(2); const c=y+used; sh(c); const s=y+h-300; sh(s); rod(s-66); clothes(s-66, Math.min(1100,Math.max(300,s-66-c-80))); }
   else if(type==="shelf"){ for(let yy=y+h-300; yy>y+250; yy-=360){ sh(yy); obj(yy+18,"box"); } obj(y+18,"box"); }
-  else if(type==="display"){ const used=drawers(1); const c=y+used; sh(c); const gap=(y+h-c-200)/3; for(let q=1;q<=3;q++){ const yy=c+gap*(q-1); if(q>1){ box(world,k,x,yy,z,w,10,D-20,"#d9e6e6","f t"); if(L) plane(world,k,LED,w-50,5,`translate3d(${(x+25)*k}px,${-(yy-2)*k}px,${-40*k}px)`);} obj(yy+(q>1?10:18),props); } }
+  else if(type==="display"){ const used=drawers(1); const c=y+used; sh(c); const gap=(y+h-c-200)/3; for(let q=1;q<=3;q++){ const yy=c+gap*(q-1); if(q>1){ box(world,k,x,yy,z,w,10,D-20,"#d9e6e6","f t"); if(L) plane(world,k,LED,w-50,5,`translate3d(${(x+25)*k}px,${-(yy-2)*k}px,${(z+D-40)*k}px)`);} obj(yy+(q>1?10:18),props); } }
 }
 
 function doors(world,k,kind,x,y,w,h,col,idx){
@@ -720,7 +784,7 @@ function doors(world,k,kind,x,y,w,h,col,idx){
       const hingeL = cnt===2 ? d===0 : (idx%2===0);
       const edge=(hingeL&&idx===0&&d===0)||(!hingeL&&x+w>=S.W-1&&d===cnt-1); const ang=edge?58:74; const lg=leaf(world,x+d*dw+g/2,dw,hingeL?"L":"R",hingeL?-ang:ang,fill);
       if(kind==="glass"){
-        const fr=COLORS[S.c==="black"?"black":S.c==="walnut"?"walnut":"white"].frame;
+        const fr=COLORS[S.c].frame;
         const fc=lg.querySelector(".grp .f");
         if(fc){ fc.style.background=`linear-gradient(125deg,rgba(255,255,255,.22),rgba(255,255,255,.04) 40%,rgba(255,255,255,.12) 60%,rgba(255,255,255,.02))`; fc.style.border=`${Math.max(2,26*k)}px solid ${fr}`; fc.style.boxSizing="border-box"; }
         lg.querySelectorAll(".grp .f").forEach((f,i)=>{ if(i>0) f.style.background=fr; });
@@ -745,6 +809,21 @@ function doors(world,k,kind,x,y,w,h,col,idx){
   return regs;
 }
 
+
+/* 콘센트 + 스위치 조명 (조명 공사 없음) */
+function lightSwitch(world,k,W,H,D){
+  const z=200*k, x=70*k;
+  const g=mk(world,"grp",`transform:translate3d(${x}px,${-1150*k}px,${z}px) rotateY(60deg)`);
+  const sw=mk(g,"f sw3d"+(S.light?" on":""),`width:${300*k}px;height:${420*k}px;transform:translate(-50%,-50%)`);
+  sw.innerHTML=`<i class="knob"></i><b class="dot"></b>`;
+  sw.title="조명 스위치";
+  sw.addEventListener("pointerdown",e=>e.stopPropagation());
+  sw.addEventListener("click",e=>{ e.stopPropagation(); S.light=!S.light; update(); const h=$("swHint"); if(h) h.style.display="none"; bubble(S.light?"딸깍! 조명 ON":"조명 OFF"); });
+  const cord=mk(g,"f",`width:${10*k}px;height:${700*k}px;background:#e8e2d6;border-radius:4px;transform:translate(-50%,${170*k}px)`);
+  const plug=mk(g,"f outlet",`width:${180*k}px;height:${180*k}px;transform:translate(-50%,${860*k}px)`);
+}
+let bubT;
+function bubble(t){ const b=$("swBubble"); if(!b) return; b.innerHTML=`<b>${t}</b><span>조명 공사 없이 콘센트에 꽂고 스위치로 켜요</span>`; b.classList.add("show"); clearTimeout(bubT); bubT=setTimeout(()=>b.classList.remove("show"),2600); }
 /* ================= 카메라 ================= */
 let K=0.2, curRegs=[];
 function layout(){
@@ -766,7 +845,7 @@ function setOpen(o){ S.open=o; const f=g=>g.style.transform=g.dataset.base+(S.op
 (function(){
   const st=document.getElementById("stage"); let down=false,sx=0,sy=0,yaw0=0,p0=0,moved=false;
   st.addEventListener("pointerdown",e=>{down=true;moved=false;sx=e.clientX;sy=e.clientY;yaw0=S.yaw;p0=S.pitch;S.auto=false;});
-  window.addEventListener("pointermove",e=>{ if(!down) return; const dx=e.clientX-sx, dy=e.clientY-sy; if(Math.abs(dx)>4) moved=true; S.yaw=Math.max(-48,Math.min(48,yaw0+dx*0.25)); S.pitch=Math.max(-20,Math.min(4,p0-dy*0.12)); applyCam(); $("dragHint").style.opacity=0; });
+  window.addEventListener("pointermove",e=>{ if(!down) return; const dx=e.clientX-sx, dy=e.clientY-sy; if(Math.abs(dx)>4) moved=true; S.yaw=Math.max(-48,Math.min(8,yaw0+dx*0.25)); S.pitch=Math.max(-20,Math.min(4,p0-dy*0.12)); applyCam(); $("dragHint").style.opacity=0; });
   window.addEventListener("pointerup",()=>{down=false;});
   let t=0; window.__vis=true; new IntersectionObserver(es=>{window.__vis=es[0].isIntersecting;},{threshold:0}).observe(st); function tick(){ if(S.auto && window.__vis){ t+=0.006; S.yaw=-22+Math.sin(t)*14; applyCam(); } requestAnimationFrame(tick);} requestAnimationFrame(tick);
 })();
@@ -826,8 +905,16 @@ function compose(){
 function renderPanel(){
   $("prods").innerHTML=Object.entries(PRODUCTS).map(([k,p])=>`<button type="button" class="chip ${S.p===k?"on":""}" data-k="${k}"><strong>${p.name}</strong><em>${p.sub}</em></button>`).join("");
   $("prods").querySelectorAll(".chip").forEach(b=>b.onclick=()=>{S.p=b.dataset.k;S.v=recVariant();S.open=false;update();});
-  $("swatches").innerHTML=Object.entries(COLORS).map(([k,c])=>`<button type="button" class="sw ${S.c===k?"on":""}" data-k="${k}"><i style="background:${c.grain?`repeating-linear-gradient(100deg,${c.door} 0 7px,${c.grain} 7px 9px)`:c.door}"></i>${c.name}</button>`).join("");
-  $("swatches").querySelectorAll(".sw").forEach(b=>b.onclick=()=>{S.c=b.dataset.k;update();});
+  const bgOf=c=>c.grain?`repeating-linear-gradient(100deg,${c.door} 0 7px,${c.grain} 7px 9px)`:c.door;
+  const partKey={d:"c",b:"cb",i:"ci"}, partName={d:"문",b:"몸통",i:"내부"};
+  $("combos").innerHTML=COMBOS.map((c,ix)=>`<button type="button" class="combo" data-i="${ix}"><div class="chips3">${[c.d,c.b,c.i].map(x=>`<i style="background:${bgOf(COLORS[x])}"></i>`).join("")}</div><strong>${c.name}</strong><em>${c.why}</em></button>`).join("");
+  $("combos").querySelectorAll(".combo").forEach(b=>b.onclick=()=>{ const c=COMBOS[+b.dataset.i]; S.c=c.d; S.cb=c.b; S.ci=c.i; update(); });
+  $("ptabs").innerHTML=["d","b","i"].map(p=>`<button type="button" class="${S.part===p?"on":""}" data-p="${p}"><i style="background:${bgOf(COLORS[S[partKey[p]]])}"></i>${partName[p]}</button>`).join("");
+  $("ptabs").querySelectorAll("button").forEach(b=>b.onclick=()=>{ S.part=b.dataset.p; renderPanel(); });
+  const groups={"한솔":"한솔 스토리보드 PET","예림":"예림 LUX 프리미엄 PET","한솔 우드":"우드 패턴"};
+  const cur=S[partKey[S.part]];
+  $("swatches").innerHTML=Object.entries(groups).map(([g,label])=>`<div class="sgrp">${label}</div><div class="swg">${Object.entries(COLORS).filter(([,c])=>c.brand===g).map(([k,c])=>`<button type="button" class="sw ${cur===k?"on":""}" data-k="${k}"><i style="background:${bgOf(c)}"></i><span>${c.name}</span></button>`).join("")}</div>`).join("");
+  $("swatches").querySelectorAll(".sw").forEach(b=>b.onclick=()=>{ S[partKey[S.part]]=b.dataset.k; update(); });
   const vs=variants(), rv=recVariant();
   $("vars").innerHTML=vs.map((v,i)=>`<button type="button" class="vr ${S.v===i?"on":""}" data-i="${i}"><strong>${v.name}${i===rv?"<i>추천</i>":""}</strong><p>${v.desc} · ${v.mods.length}칸</p></button>`).join("");
   $("vars").querySelectorAll(".vr").forEach(b=>b.onclick=()=>{S.v=+b.dataset.i;update(); if(!PRODUCTS[S.p].always && PRODUCTS[S.p].doors!=="glass") setOpen(true);});
@@ -862,7 +949,7 @@ function summaryText(){
   return `[유비스 3D 시안 상담 요청]
 ${head}품목: ${p.name}
 벽 크기: 가로 ${fmt(S.W)} × 높이 ${fmt(S.H)}mm
-컬러: ${COLORS[S.c].name}
+컬러: 문 ${COLORS[S.c].name} / 몸통 ${COLORS[S.cb].name} / 내부 ${COLORS[S.ci].name}
 구성: ${v.name} (${v.mods.length}칸)
 도어: ${doorLabel()}
 조명: ${S.light?"선반·측판 라인 조명 희망":"없음"}
@@ -949,7 +1036,7 @@ async function runAi(){
   const steps=["사진 속 벽과 조명을 분석하는 중…","치수에 맞춰 장의 비율을 잡는 중…","선택한 소재와 컬러를 입히는 중…","조명과 그림자를 다듬는 중…","마지막으로 디테일을 정리하는 중…"];
   let t=0; const it=setInterval(()=>{ t++; $("genTxt").textContent=steps[Math.min(steps.length-1,Math.floor(t/9))]; $("genBar").style.width=Math.min(94,t*1.6)+"%"; },1000);
   const v=variants()[S.v];
-  const payload={name,phone,consent:true,orient:AR.orient,design:{product:S.p,color:S.c,W:S.W,H:S.H,mods:v.mods,variantName:v.name,light:S.light,mood:S.ans.mood?S.mood:null,answers:S.ans}};
+  const payload={name,phone,consent:true,orient:AR.orient,design:{product:S.p,color:S.c,colors:{door:[COLORS[S.c].name,COLORS[S.c].door],body:[COLORS[S.cb].name,COLORS[S.cb].door],interior:[COLORS[S.ci].name,COLORS[S.ci].door]},W:S.W,H:S.H,mods:v.mods,variantName:v.name,light:S.light,mood:S.ans.mood?S.mood:null,answers:S.ans}};
   try{
     const ctl=new AbortController(); const to=setTimeout(()=>ctl.abort(),170000);
     const fd=new FormData(); fd.append("payload",JSON.stringify(payload)); fd.append("image",await (await fetch(AR.dataUrl)).blob(),"room.jpg");
@@ -988,7 +1075,7 @@ function setProg(){
   document.querySelector(".topbar").classList.toggle("clear",cur==="intro");
   $("back").style.visibility=(cur==="intro"||cur==="compose")?"hidden":"visible";
 }
-function saveState(){ try{ sessionStorage.setItem("ubisState",JSON.stringify({S:{p:S.p,W:S.W,H:S.H,c:S.c,v:S.v,light:S.light,mood:S.mood,ans:S.ans},qi,cur})); }catch(e){} }
+function saveState(){ try{ sessionStorage.setItem("ubisState",JSON.stringify({S:{p:S.p,W:S.W,H:S.H,c:S.c,cb:S.cb,ci:S.ci,v:S.v,light:S.light,mood:S.mood,ans:S.ans},qi,cur})); }catch(e){} }
 function show(name){
   if(!SCREENS.includes(name)) name="intro";
   $("sheetDesign").classList.remove("show");
@@ -1027,7 +1114,7 @@ $("sizeDefault").onclick=()=>{ $("inW").value=2400; $("inH").value=2300; compose
 
 /* ================= 실사 시안 (홈페이지 실제 제품 이미지) ================= */
 S.view="real";
-const TONE={white:"bright",ivory:"bright",greige:"bright",oak:"wood",walnut:"wood",black:"dark"};
+const TONE=new Proxy({}, {get:(_,k)=>(COLORS[k]||{}).tone||"bright"});
 function realPhotos(){
   const list=(HP[S.p]||[]).slice(); const t=TONE[S.c];
   const score=x=> x[1]===t?2 : (x[1]==="warm"&&t!=="bright")?1 : 0;
@@ -1040,7 +1127,7 @@ function renderReal(){
   $("rtrack").innerHTML=list.map((x,i)=>`<div class="rslide"><img src="${x[0]}" alt="${p.name} 실제 제품 이미지 ${i+1}" ${i>1?'loading="lazy"':''}></div>`).join("");
   $("rdots").innerHTML=list.map((_,i)=>`<i class="${i===0?"on":""}"></i>`).join("");
   $("rtrack").scrollLeft=0;
-  $("rcap").innerHTML=`<div class="eyebrow">UBIS · ${p.name}</div><h3>고객님 벽 ${fmt(S.W)} × ${fmt(S.H)}mm에<br>이렇게 맞춰 드려요</h3><div class="fit"><span>${n}칸 · 칸당 약 ${fmt(mw)}mm</span><span>${doors}</span><span>${COLORS[S.c].name}</span><span>${v.name}</span></div><small>유비스 실제 제품 이미지예요 · 옆으로 넘겨 보세요 · 색상과 구성은 맞춤 제작</small>`;
+  $("rcap").innerHTML=`<div class="eyebrow">UBIS · ${p.name}</div><h3>고객님 벽 ${fmt(S.W)} × ${fmt(S.H)}mm에<br>이렇게 맞춰 드려요</h3><div class="fit"><span>${n}칸 · 칸당 약 ${fmt(mw)}mm</span><span>${doors}</span><span>${COLORS[S.c].name}</span><span>${v.name}</span>${S.light?"<span>💡 콘센트+스위치 조명</span>":""}</div><small>유비스 실제 제품 이미지예요 · 옆으로 넘겨 보세요 · 색상과 구성은 맞춤 제작</small>`;
 }
 $("rtrack").addEventListener("scroll",()=>{ const i=Math.round($("rtrack").scrollLeft/Math.max(1,$("rtrack").clientWidth)); $("rdots").querySelectorAll("i").forEach((d,k)=>d.classList.toggle("on",k===i)); },{passive:true});
 function setView(v){ S.view=v; $("s-design").classList.toggle("v3d",v==="3d"); $("bReal").classList.toggle("on",v==="real"); $("b3d").classList.toggle("on",v==="3d"); if(v==="3d") requestAnimationFrame(()=>layout()); }
@@ -1051,7 +1138,7 @@ renderPresets();
 (function restore(){
   let st=null; try{ st=JSON.parse(sessionStorage.getItem("ubisState")||"null"); }catch(e){}
   let n=(location.hash||"").slice(1); if(n==="compose") n="size";
-  if(st && SCREENS.includes(n) && n!=="intro"){ Object.assign(S,st.S); qi=Math.min(st.qi||0,QUESTIONS.length-1); $("inW").value=S.W; $("inH").value=S.H; renderQ(); update(); show(n); }
+  if(st && SCREENS.includes(n) && n!=="intro"){ Object.assign(S,st.S); if(!PRODUCTS[S.p]) S.p="hinge"; if(!MOODS[S.mood]) S.mood="hotel"; S.v=Math.max(0,Math.min(2,S.v|0)); if(!COLORS[S.c]) S.c="white"; if(!COLORS[S.cb]) S.cb=S.c; if(!COLORS[S.ci]) S.ci=S.c; qi=Math.min(st.qi||0,QUESTIONS.length-1); $("inW").value=S.W; $("inH").value=S.H; renderQ(); update(); show(n); }
   else { renderQ(); update(); try{ history.replaceState(null,"","#intro"); }catch(e){} show("intro"); }
 })();
 </script>
