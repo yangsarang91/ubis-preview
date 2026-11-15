@@ -420,7 +420,7 @@ details.privacy summary{cursor:pointer;color:#bdb4a5;font-size:12px;min-height:4
     <div><div class="ring"></div><p>디자이너 시안을 구성하고 있어요</p><small id="compTxt">분위기에 맞는 소재와 조명을 고르는 중…</small></div>
   </section>
 
-  <section class="scr" id="s-design">
+  <section class="scr v3d" id="s-design">
     <div class="real" id="real">
       <div class="rtrack" id="rtrack"></div>
       <div class="rcap" id="rcap"></div>
@@ -433,8 +433,8 @@ details.privacy summary{cursor:pointer;color:#bdb4a5;font-size:12px;min-height:4
       <div class="swb" id="swBubble"></div><div class="swhint" id="swHint">왼쪽 벽 스위치를 눌러 보세요 💡</div>
     </div>
     <div class="sbar">
-      <button class="sbtn on" id="bReal" type="button">실사 시안</button>
-      <button class="sbtn" id="b3d" type="button">내 치수 3D</button>
+      <button class="sbtn on" id="b3d" type="button">내 치수 3D</button>
+      <button class="sbtn" id="bReal" type="button">실사 사진</button>
       <button class="sbtn" id="bOpen" type="button">문 열기</button>
       <button class="sbtn on" id="bLight" type="button">조명 켜짐</button>
       <button class="sbtn" id="bFront" type="button" style="display:none">정면</button>
@@ -900,7 +900,7 @@ function compose(){
   update(); go("compose");
   const msgs=["분위기에 맞는 소재와 조명을 고르는 중…","수납 고민에 맞춰 칸을 나누는 중…","유비스 제작 규칙으로 치수를 맞추는 중…"];
   let i=0; $("compTxt").textContent=msgs[0]; const it=setInterval(()=>{ i++; $("compTxt").textContent=msgs[i%msgs.length]; },650);
-  setTimeout(()=>{ clearInterval(it); go("design"); setView('real'); },2100);
+  setTimeout(()=>{ clearInterval(it); go("design"); setView('3d'); setTimeout(()=>{ if(!PRODUCTS[S.p].always && PRODUCTS[S.p].doors!=="glass"){ setOpen(true); setTimeout(()=>setOpen(false),2600);} },500); },2100);
 }
 function renderPanel(){
   $("prods").innerHTML=Object.entries(PRODUCTS).map(([k,p])=>`<button type="button" class="chip ${S.p===k?"on":""}" data-k="${k}"><strong>${p.name}</strong><em>${p.sub}</em></button>`).join("");
@@ -1113,7 +1113,7 @@ $("sizeDefault").onclick=()=>{ $("inW").value=2400; $("inH").value=2300; compose
 
 
 /* ================= 실사 시안 (홈페이지 실제 제품 이미지) ================= */
-S.view="real";
+S.view="3d";
 const TONE=new Proxy({}, {get:(_,k)=>(COLORS[k]||{}).tone||"bright"});
 function realPhotos(){
   const list=(HP[S.p]||[]).slice(); const t=TONE[S.c];
