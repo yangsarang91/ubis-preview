@@ -94,14 +94,3 @@ export function buildPrompt(d) {
     .filter(Boolean)
     .join(" ");
 }
-
-// 데이터 URL(jpeg/png/webp) → Blob. 너무 크면 null
-export function dataUrlToBlob(dataUrl, maxBytes = 4 * 1024 * 1024) {
-  const m = /^data:(image\/(?:jpeg|png|webp));base64,([A-Za-z0-9+/=]+)$/.exec(String(dataUrl || ""));
-  if (!m) return null;
-  const bin = atob(m[2]);
-  if (bin.length > maxBytes) return null;
-  const bytes = new Uint8Array(bin.length);
-  for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
-  return new Blob([bytes], { type: m[1] });
-}

@@ -23,14 +23,15 @@
 6. **Settings → Variables and Secrets**:
    - `OPENAI_API_KEY` (Secret) — OpenAI API 키
    - `ADMIN_KEY` (Secret) — 관리자 페이지 비밀번호 (8자 이상)
-   - 선택: `PER_PHONE_LIMIT`(기본 3), `DAILY_LIMIT`(기본 60), `IMAGE_QUALITY`(low/medium/high, 기본 medium), `OPENAI_IMAGE_MODEL`(기본 gpt-image-1)
+   - 선택: `PER_PHONE_LIMIT`(기본 3), `PER_IP_DAILY`(기본 6), `DAILY_LIMIT`(기본 60), `INPUT_FIDELITY`(예: high), `IMAGE_QUALITY`(low/medium/high, 기본 medium), `OPENAI_IMAGE_MODEL`(기본 gpt-image-1)
 7. **Deployments → Retry deployment** (설정 반영)
 
 ## 비용 보호
 
 - 연락처(휴대폰 번호)당 생성 수 제한 (`PER_PHONE_LIMIT`)
+- 같은 접속 IP 하루 생성 수 제한 (`PER_IP_DAILY`)
 - 하루 전체 생성 수 상한 (`DAILY_LIMIT`)
-- 생성에 성공했을 때만 사용량 차감
+- 생성 전에 미리 차감하고, 실패하면 되돌림 (동시 요청 방지)
 - OpenAI 대시보드에서 월 사용 한도(Usage limit)도 꼭 설정하세요.
 
 ## 개인정보

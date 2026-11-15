@@ -57,7 +57,7 @@ async function load(){
 $("load").onclick=load;
 $("csv").onclick=async()=>{
   const head="일시,성함,연락처,품목,컬러,가로,높이,구성,조명,상태,상담답변";
-  const body=rows.map(x=>{const g=x.design||{};return [x.createdAt,x.name,x.phone,P[g.product]||g.product,C[g.color]||g.color,g.W,g.H,g.variantName,g.light?"Y":"N",ST[x.status]||x.status,Object.values(g.answers||{}).join("/")].map(v=>`"${String(v??"").replace(/"/g,'""')}"`).join(",");}).join("\n");
+  const body=rows.map(x=>{const g=x.design||{};return [x.createdAt,x.name,x.phone,P[g.product]||g.product,C[g.color]||g.color,g.W,g.H,g.variantName,g.light?"Y":"N",ST[x.status]||x.status,Object.values(g.answers||{}).join("/")].map(v=>{v=String(v??""); if(/^[=+\-@\t\r]/.test(v)) v="'"+v; return `"${v.replace(/"/g,'""')}"`;}).join(",");}).join("\n");
   try{ await navigator.clipboard.writeText(head+"\n"+body); $("msg").textContent="CSV를 복사했어요. 엑셀이나 구글 시트에 붙여넣으세요."; }catch(e){ $("msg").textContent="복사가 막혀 있어요."; }
 };
 </script>

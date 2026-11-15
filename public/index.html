@@ -863,10 +863,11 @@ async function runAi(){
   const steps=["사진 속 벽과 조명을 분석하는 중…","치수에 맞춰 장의 비율을 잡는 중…","선택한 소재와 컬러를 입히는 중…","조명과 그림자를 다듬는 중…","마지막으로 디테일을 정리하는 중…"];
   let t=0; const it=setInterval(()=>{ t++; $("genTxt").textContent=steps[Math.min(steps.length-1,Math.floor(t/9))]; $("genBar").style.width=Math.min(94,t*1.6)+"%"; },1000);
   const v=variants()[S.v];
-  const payload={name,phone,consent:true,image:AR.dataUrl,orient:AR.orient,design:{product:S.p,color:S.c,W:S.W,H:S.H,mods:v.mods,variantName:v.name,light:S.light,mood:S.ans.mood?S.mood:null,answers:S.ans}};
+  const payload={name,phone,consent:true,orient:AR.orient,design:{product:S.p,color:S.c,W:S.W,H:S.H,mods:v.mods,variantName:v.name,light:S.light,mood:S.ans.mood?S.mood:null,answers:S.ans}};
   try{
     const ctl=new AbortController(); const to=setTimeout(()=>ctl.abort(),170000);
-    const r=await fetch("/api/render",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify(payload),signal:ctl.signal});
+    const fd=new FormData(); fd.append("payload",JSON.stringify(payload)); fd.append("image",await (await fetch(AR.dataUrl)).blob(),"room.jpg");
+    const r=await fetch("/api/render",{method:"POST",body:fd,signal:ctl.signal});
     clearTimeout(to);
     const d=await r.json().catch(()=>({ok:false,message:"응답을 읽지 못했어요."}));
     if(!d.ok) throw new Error(d.message||"시안을 만들지 못했어요.");
