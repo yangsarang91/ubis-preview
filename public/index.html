@@ -882,16 +882,35 @@ function showroom(world,k,W,H,D,WD,bcol,icol,inC,LED,L){
   const tones=S.mood==="luxe"?["#1f1d1b","#6d5a48","#d8cbb6","#3a3633","#a48463","#efe7da"]:["#d9d1c4","#8c8579","#3e3b37","#b7ab98","#efe9df","#6f665c","#a9b4a6"];
   const shelf=(x,yy,w)=>{ box(world,k,x,yy,z+6,w,24,WD,f=>shade(inC,f),"f t b"); if(L){ plane(world,k,LED,w-30,6,`translate3d(${(x+15)*k}px,${-(yy-2)*k}px,${(z+WD-10)*k}px)`); } };
   const bar=(x1,x2,yy)=>{ box(world,k,x1,yy,z+150,x2-x1,14,14,"#2a2826","f b"); [x1,x2-14].forEach(bx=>box(world,k,bx,yy-10,z+6,14,24,150,"#2a2826","f l r")); };
-  const faceOut=(x1,x2,yy,len)=>{ const gap=Math.max(380,Math.min(520,(x2-x1)/Math.max(1,Math.round((x2-x1)/460)))); let j=0; for(let cx=x1+gap/2; cx<x2-150; cx+=gap,j++){ const c=tones[j%tones.length]; const gw=Math.min(420,gap-60); box(world,k,cx-gw/2,yy-30-len,z+150+((j%3)*14),gw,len,22,f=>shade(c,f),"f l r"); box(world,k,cx-gw*.22,yy-40,z+150,gw*.44,30,24,f=>shade(c,f*.9),"f"); } };
+  const SHAPES={
+    coat:["polygon(33% 0,67% 0,95% 10%,100% 66%,88% 66%,86% 100%,14% 100%,12% 66%,0 66%,5% 10%)",1.0,460,true],
+    shirt:["polygon(32% 0,68% 0,100% 16%,93% 52%,81% 47%,81% 100%,19% 100%,19% 47%,7% 52%,0 16%)",0.6,440,true],
+    dress:["polygon(37% 0,63% 0,72% 9%,68% 34%,97% 100%,3% 100%,32% 34%,28% 9%)",0.86,380,false],
+    knit:["polygon(30% 0,70% 0,100% 20%,96% 70%,84% 66%,82% 100%,18% 100%,16% 66%,4% 70%,0 20%)",0.55,470,false]
+  };
+  const ORDER=["coat","shirt","dress","knit","shirt","coat","knit","dress"];
+  const garment=(cx,yy,len,c,type,zz)=>{
+    const [clip,lf,gw,placket]=SHAPES[type]; const L2=len*lf;
+    const dk=shade(c,.78), lt=shade(c,1.12);
+    const bg=`linear-gradient(90deg,${dk} 0%,${c} 18%,${lt} 46%,${c} 78%,${dk} 100%)${placket?`,linear-gradient(90deg,transparent 49%,rgba(0,0,0,.25) 49.5%,rgba(0,0,0,.25) 50.5%,transparent 51%)`:""}`;
+    // 옷걸이(우드) + 고리
+    plane(world,k,`background:#2a2826;border-radius:4px`,10,60,`translate3d(${(cx-5)*k}px,${-(yy+40)*k}px,${(zz+2)*k}px)`);
+    plane(world,k,`background:linear-gradient(180deg,#c9a77e,#9b7a54);clip-path:polygon(50% 0,100% 85%,100% 100%,0 100%,0 85%)`,gw*0.92,70,`translate3d(${(cx-gw*0.46)*k}px,${-(yy-10)*k}px,${(zz+3)*k}px)`);
+    plane(world,k,`background:${bg};clip-path:${clip};box-shadow:0 0 0 1px rgba(0,0,0,.05)`,gw,L2,`translate3d(${(cx-gw/2)*k}px,${-(yy-40)*k}px,${(zz+6)*k}px)`);
+    // 벽에 은은한 그림자
+    plane(world,k,`background:radial-gradient(50% 50% at 50% 50%,rgba(0,0,0,.22),transparent 70%)`,gw*1.1,L2*0.9,`translate3d(${(cx-gw*0.55)*k}px,${-(yy-80)*k}px,${(z+10)*k}px)`);
+  };
+  const faceOut=(x1,x2,yy,len,only)=>{ const gap=Math.max(440,Math.min(560,(x2-x1)/Math.max(1,Math.round((x2-x1)/500)))); let j=0; for(let cx=x1+gap/2; cx<x2-180; cx+=gap,j++){ garment(cx,yy,len,tones[j%tones.length],only?only[j%only.length]:ORDER[j%ORDER.length],z+150+((j%2)*16)); } };
+  const drawerRun=(x1,x2)=>{ const yb=150, dh=220; box(world,k,x1,yb,z+6,x2-x1,dh*2,WD+40,f=>surf(bcol,f),"f t"); for(let d=1;d<2;d++) plane(world,k,`background:rgba(0,0,0,.28)`,x2-x1,6,`translate3d(${x1*k}px,${-(yb+dh*d)*k}px,${(z+WD+47)*k}px)`); const nd=Math.max(1,Math.round((x2-x1)/900)); for(let d=1;d<nd;d++) plane(world,k,`background:rgba(0,0,0,.28)`,6,dh*2,`translate3d(${(x1+(x2-x1)*d/nd)*k}px,${-(yb+dh*2)*k}px,${(z+WD+47)*k}px)`); if(L) plane(world,k,LED,x2-x1-40,6,`translate3d(${(x1+20)*k}px,${-(yb-4)*k}px,${(z+WD+10)*k}px)`); };
   const items=(x,yy,w)=>{ const pal=["#d8c6a3","#1f1c1a","#8a5a3c","#efe6d6","#b9a78c"]; const c=Math.max(1,Math.floor(w/300)); for(let j=0;j<c;j++){ const bw=140+(j%2)*50, bh=130+(j%3)*40; box(world,k,x+40+j*(w-80)/c,yy+24,z+WD/2-60,bw,bh,140,pal[j%pal.length],"f t l r"); } };
   // 상단 연속 선반 (전체 폭)
   shelf(60,H-430,W-120); items(60,H-430,W-120);
-  if(v===0){ const rx=Math.round(W*0.64); bar(80,rx-60,1720); faceOut(80,rx-60,1720,980);
+  if(v===0){ const rx=Math.round(W*0.64); drawerRun(80,rx-60); bar(80,rx-60,1760); faceOut(80,rx-60,1760,980);
     for(let yy=H-800; yy>560; yy-=360){ shelf(rx,yy,W-rx-60); items(rx,yy,W-rx-60); }
     box(world,k,rx,80,z+6,W-rx-60,420,WD,f=>surf(bcol,f),"f t"); }
-  else if(v===1){ bar(80,W-80,1800); faceOut(80,W-80,1800,700); bar(80,W-80,960); faceOut(80,W-80,960,620); }
+  else if(v===1){ drawerRun(80,W-80); bar(80,W-80,1880); faceOut(80,W-80,1880,920,["shirt","knit"]); bar(80,W-80,1190); faceOut(80,W-80,1190,820,["shirt","knit"]); }
   else { const mw2=Math.min(620,W*0.2); plane(world,k,`background:linear-gradient(120deg,#f1f4f5,#b8c2c6 45%,#eef1f2 60%,#c9d1d4);${L?"box-shadow:0 0 22px 5px rgba(255,214,140,.55)":""}`,mw2,1900,`translate3d(${80*k}px,${-2000*k}px,${(z+10)*k}px)`);
-    const sx=80+mw2+120; bar(sx,Math.round(W*0.62),1720); faceOut(sx,Math.round(W*0.62),1720,980);
+    const sx=80+mw2+120; drawerRun(sx,Math.round(W*0.62)); bar(sx,Math.round(W*0.62),1760); faceOut(sx,Math.round(W*0.62),1760,980);
     const rx=Math.round(W*0.62)+60; for(let yy=H-800; yy>300; yy-=330){ shelf(rx,yy,W-rx-60); items(rx,yy,W-rx-60); } }
 }
 /* 콘센트 + 스위치 조명 (조명 공사 없음) */
@@ -1230,13 +1249,14 @@ function elevSVG(){
   g+=R(-pad*0.6,0,W+pad*1.2,H,"#e7e2d9");
   const doorFill=dc.grain?"url(#wood)":dc.door, line=shade(dc.frame,.9);
   const shelfLines=(x,w)=>{ let o=""; for(let yy=300; yy<H-200; yy+=380) o+=R(x+30,yy,w-60,22,ic.frame)+(S.light?R(x+50,yy+22,w-100,10,"#ffcf6e"):""); return o; };
+  const drw=(x1,x2)=>R(x1,H-590,x2-x1,440,bc.door,shade(bc.frame,.9))+L(x1,H-370,x2,H-370,'rgba(0,0,0,.3)',6);
   const garments=(x1,x2,yy,len,face)=>{ let o="",j=0; const cols=["#3e3b37","#b7ab98","#8c8579","#d9d1c4","#6d5a48"]; const step=face?480:80; for(let cx=x1+step/2; cx<x2-step/3; cx+=step,j++) o+= face? R(cx-200,yy+40,400,len,cols[j%5],"","rx='40'") : R(cx-14,yy+30,28,len*(0.7+((j*37)%30)/100),cols[j%5]); return o+L(x1,yy,x2,yy,"#2a2826",18); };
   if(S.p==="wallpanel"){
     g+=R(0,0,W,H,bc.door)+glow;
     for(let x=600;x<W;x+=600) g+=L(x,0,x,H,"rgba(0,0,0,.15)",4);
     g+=R(60,430,W-120,24,ic.frame)+(S.light?R(80,454,W-160,10,"#ffcf6e"):"");
-    if(S.v===1){ g+=garments(80,W-80,H-1800,700,true)+garments(80,W-80,H-960,600,true); }
-    else { const rx=S.v===2?W*0.62:W*0.64; const sx=S.v===2?80+Math.min(620,W*.2)+120:80; if(S.v===2) g+=R(80,300,Math.min(620,W*.2),1900,"#cfd8db","#9aa5a9"); g+=garments(sx,rx-60,H-1720,980,true); const gap=S.v===2?330:360, lim=S.v===2?H-300:H-560; for(let yy=800; yy<lim; yy+=gap) g+=R(rx,yy,W-rx-60,24,ic.frame)+(S.light?R(rx+20,yy+24,W-rx-100,10,"#ffcf6e"):""); if(S.v===0) g+=R(rx,H-500,W-rx-60,420,bc.door,shade(bc.frame,.9)); }
+    if(S.v===1){ g+=drw(80,W-80)+garments(80,W-80,H-1880,560,true)+garments(80,W-80,H-1190,480,true); }
+    else { const rx=S.v===2?W*0.62:W*0.64; const sx=S.v===2?80+Math.min(620,W*.2)+120:80; if(S.v===2) g+=R(80,300,Math.min(620,W*.2),1900,"#cfd8db","#9aa5a9"); g+=drw(sx,rx-60)+garments(sx,rx-60,H-1760,900,true); const gap=S.v===2?330:360, lim=S.v===2?H-300:H-560; for(let yy=800; yy<lim; yy+=gap) g+=R(rx,yy,W-rx-60,24,ic.frame)+(S.light?R(rx+20,yy+24,W-rx-100,10,"#ffcf6e"):""); if(S.v===0) g+=R(rx,H-500,W-rx-60,420,bc.door,shade(bc.frame,.9)); }
   } else {
     g+=R(0,0,W,H,bc.door,line);
     g+=R(0,H-60,W,60,shade(bc.frame,.9));
