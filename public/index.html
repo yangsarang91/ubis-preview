@@ -309,6 +309,22 @@ h2.q2{font-family:"Noto Serif KR",serif;font-weight:500;font-size:clamp(23px,6vw
 .bsheet .grab{width:44px;height:4px;border-radius:4px;background:#3a342b;margin:0 auto 14px}
 .bsheet .sheet-btn{width:100%;margin-top:6px}
 .toast{bottom:110px}
+.real{display:flex;flex-direction:column}
+.rphoto{flex:.85;min-height:0;position:relative;overflow:hidden}
+.real::after{display:none}
+.rphoto::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,rgba(0,0,0,.3),transparent 25%,transparent 70%,rgba(0,0,0,.45))}
+.rtag{position:absolute;left:14px;bottom:12px;z-index:2;font-size:11.5px;color:#f1e6cf;background:rgba(0,0,0,.45);border:1px solid rgba(255,255,255,.15);border-radius:99px;padding:5px 10px;backdrop-filter:blur(6px)}
+.rapply{flex:1.3;min-height:0;display:flex;flex-direction:column;padding:12px 16px 10px;background:linear-gradient(180deg,#171511,#110f0d);border-top:1px solid var(--line)}
+.rhead{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px}
+.rhead b{font-family:"Noto Serif KR",serif;font-weight:500;font-size:16px;color:#fff}
+.rhead span{font-size:12px;color:var(--gold2)}
+.relev{flex:1;min-height:0;display:flex;align-items:center;justify-content:center}
+.relev svg{width:100%;height:100%;max-height:100%}
+.rapply .rcap{position:static;margin-top:6px}
+#s-design:not(.v3d) #note{display:none}
+.rapply .fit span{font-size:11px;padding:4px 8px}
+.rapply .rcap .fit span{background:#1f1c17;border-color:#3a3226}
+
 .sw3d{border-radius:22%;background:linear-gradient(145deg,#fbf8f1,#e3dccd);box-shadow:0 1px 2px rgba(0,0,0,.35),inset 0 0 0 1px rgba(255,255,255,.6);cursor:pointer}
 .sw3d::before{content:"";position:absolute;inset:-70%;border-radius:50%}
 .sw3d .knob{position:absolute;left:28%;right:28%;top:18%;height:40%;border-radius:30%;background:linear-gradient(180deg,#fff,#d9d1c1);box-shadow:0 2px 3px rgba(0,0,0,.3);transition:transform .25s;transform:translateY(55%)}
@@ -422,9 +438,8 @@ details.privacy summary{cursor:pointer;color:#bdb4a5;font-size:12px;min-height:4
 
   <section class="scr v3d" id="s-design">
     <div class="real" id="real">
-      <div class="rtrack" id="rtrack"></div>
-      <div class="rcap" id="rcap"></div>
-      <div class="rdots" id="rdots"></div>
+      <div class="rphoto"><div class="rtrack" id="rtrack"></div><div class="rdots" id="rdots"></div><div class="rtag" id="rtag"></div></div>
+      <div class="rapply"><div class="rhead"><b>고객님 벽에 적용하면</b><span id="rsize"></span></div><div class="relev" id="relev"></div><div class="rcap" id="rcap"></div></div>
     </div>
     <div class="stage3d" id="stage">
       <div class="cam" id="cam"><div class="world" id="world"></div></div>
@@ -540,11 +555,11 @@ const PRODUCTS = {
   wallpanel:{name:"벽판넬 드레스룸", sub:"벽면 자체가 인테리어", modW:900, doors:"none", always:true, for:"보여주는 수납과 벽 마감을 함께 원하는 분"},
   glass:{name:"쇼케이스 유리도어 붙박이장", sub:"보이게 정리하는 수납", modW:800, doors:"glass", always:false, for:"옷과 소품을 보이게 정리하고 싶은 분"},
   hybrid:{name:"하이브리드 유리+페트 붙박이장", sub:"감추고, 보여주고", modW:900, doors:"hybrid", always:false, for:"일부만 진열하고 나머지는 깔끔하게 숨기고 싶은 분"},
-  wide:{name:"광폭장", sub:"열면 한눈에 다 보이는", modW:1200, doors:"hinge", always:false, for:"넓은 개방감을 원하는 분"},
+  wide:{name:"광폭장", sub:"스르륵 미닫이 · 1800 와이드 쇼룸", modW:1800, doors:"slide", always:false, for:"넓은 개방감을 원하는 분"},
   newcastle:{name:"시스템 붙박이장 뉴캐슬 5.0", sub:"조명 + 내부구조 변경 기본", modW:900, doors:"hinge", always:false, for:"조명과 내부 구성을 자유롭게 바꾸고 싶은 분"},
   hinge:{name:"여닫이 붙박이장", sub:"가장 깔끔한 기본", modW:900, doors:"hinge", always:false, for:"군더더기 없는 붙박이장을 원하는 분"},
   open:{name:"오픈 붙박이장", sub:"드레스룸처럼 꺼내 쓰는", modW:900, doors:"none", always:true, for:"문 없이 한눈에 보고 꺼내 쓰고 싶은 분"},
-  sliding:{name:"슬라이딩 붙박이장", sub:"문 앞 공간이 좁을 때", modW:1200, doors:"hinge", always:false, for:"문 열 공간이 부족한 방"},
+  sliding:{name:"슬라이딩 붙박이장", sub:"문 앞 공간이 좁을 때", modW:900, doors:"slide", always:false, for:"문 열 공간이 부족한 방"},
   multi:{name:"멀티 붙박이장", sub:"한 공간을 여러 기능으로", modW:900, doors:"hinge", always:false, for:"수납과 책상·화장대를 함께 넣고 싶은 분"}
 };
 const HP = {"wallpanel": [["photos/hp-wallpanel-1.jpg", "warm"], ["photos/hp-wallpanel-2.jpg", "bright"], ["photos/hp-wallpanel-3.jpg", "bright"], ["photos/hp-wallpanel-4.jpg", "bright"]], "opendress": [["photos/hp-opendress-1.jpg", "dark"]], "open": [["photos/hp-open-1.jpg", "wood"], ["photos/hp-open-2.jpg", "bright"], ["photos/hp-open-3.jpg", "wood"]], "glass": [["photos/hp-glass-1.jpg", "dark"], ["photos/hp-glass-2.jpg", "dark"], ["photos/hp-glass-3.jpg", "dark"], ["photos/hp-glass-4.jpg", "dark"], ["photos/hp-glass-5.jpg", "wood"], ["photos/hp-glass-6.jpg", "dark"]], "hybrid": [["photos/hp-hybrid-1.jpg", "bright"], ["photos/hp-hybrid-2.jpg", "dark"], ["photos/hp-hybrid-3.jpg", "bright"], ["photos/hp-hybrid-4.jpg", "bright"]], "wide": [["photos/hp-wide-1.jpg", "wood"], ["photos/hp-wide-2.jpg", "dark"], ["photos/hp-wide-3.jpg", "bright"], ["photos/hp-wide-4.jpg", "bright"], ["photos/hp-wide-5.jpg", "dark"]], "newcastle": [["photos/hp-newcastle-1.jpg", "bright"], ["photos/hp-newcastle-2.jpg", "bright"], ["photos/hp-newcastle-3.jpg", "dark"]], "hinge": [["photos/hp-hinge-1.jpg", "bright"], ["photos/hp-hinge-2.jpg", "bright"], ["photos/hp-hinge-3.jpg", "bright"], ["photos/hp-hinge-4.jpg", "bright"]], "sliding": [["photos/hp-sliding-1.jpg", "bright"], ["photos/hp-sliding-2.jpg", "bright"], ["photos/hp-sliding-3.jpg", "bright"]], "multi": [["photos/hp-multi-1.jpg", "wood"], ["photos/hp-multi-2.jpg", "wood"], ["photos/hp-multi-3.jpg", "wood"]]};
@@ -616,6 +631,17 @@ function variants(){
     {name:"수납 극대화형", desc:"2단 옷봉과 서랍으로 더 많이 넣는 구성", mods:cyc(["double","drawer","double"])},
     {name:"쇼룸형", desc:"진열칸을 따로 둔 호텔 드레스룸 구성", mods:center("display",["hang","drawer"])}
   ];
+  if(S.p==="wide") return [
+    {name:"와이드 쇼룸", desc:"1800 폭 한 칸에 긴 옷봉 하나, 열면 옷이 가로로 쫙", mods:Array(n).fill("widerail")},
+    {name:"와이드 + 서랍", desc:"긴 옷봉 아래 넓은 서랍 2단", mods:Array(n).fill("widedrawer")},
+    {name:"와이드 + 진열", desc:"옷봉과 가방 진열 선반을 번갈아", mods: n===1 ? ["widedisplay"] : Array.from({length:n},(_,i)=>i%2?"display":"widerail")}
+  ];
+  if(S.p==="wallpanel") return [
+    {name:"쇼룸 페이스아웃", desc:"벽 바에 옷 앞면이 보이게 걸고, 한쪽은 떠 있는 선반", mods:Array(n).fill("wp")},
+    {name:"2단 쇼룸 바", desc:"위아래 두 줄 바에 상의·하의를 나란히", mods:Array(n).fill("wp")},
+    {name:"갤러리 + 전신거울", desc:"전신거울과 진열 선반을 넓게", mods:Array(n).fill("wp")}
+  ];
+  if(S.p==="multi"){ out.forEach(o=>{ o.mods=o.mods.slice(); if(n>=2){ const c=Math.floor(n/2); o.mods[ o.mods[c]==="display" ? (c+1)%n : c ]="desk"; } }); out[0].name="수납 + 책상/화장대"; out[0].desc="가운데 칸을 책상·화장대로, 양옆은 수납"; }
   return out;
 }
 function recVariant(){ const n=S.ans.need; return n==="much"?1:n==="show"?2:(S.p==="glass"?2:0); }
@@ -645,10 +671,11 @@ function designerNote(){
     return `<b>${v.name}</b>으로 그려봤어요. 위에서 1분 상담을 하시면 분위기에 맞춰 소재와 조명까지 다시 구성해 드려요.`;
   }
   const m=MOODS[S.mood];
+  const deskTx = v.mods.includes("desk") ? " 가운데 칸은 책상·화장대로 비우고 거울을 달았어요." : "";
   const why={long:"긴 옷이 많다고 하셔서 옷봉 칸을 넉넉히 두었어요.",show:(S.p==="glass"?"가방과 신발을 보여주고 싶다고 하셔서 유리문 안에 진열칸을 따로 두었어요.":"가방과 소품을 정리해 둘 수 있게 문 안쪽에 진열칸을 따로 두었어요."),much:"수납량이 가장 중요하다고 하셔서 2단 옷봉과 서랍을 넣었어요.",hide:"싹 숨기고 싶다고 하셔서 손잡이 없는 푸시 도어로 벽처럼 깔끔하게 했어요."}[a.need]||"";
   const doorW = p.doors==="hinge"||p.doors==="glass"||p.doors==="panel"||p.doors==="hybrid" ? ` 칸 폭이 약 ${fmt(mw)}mm라 ${mw>600?"칸마다 문 2짝":"칸마다 문 1짝"}으로 나눴어요.` : p.doors==="fold"?` 약 ${fmt(mw)}mm 칸을 폴딩도어로 한 번에 열 수 있어요.`:"";
   const hasDisp=v.mods.includes("display"); const lightTx = S.light ? ((a.light==="show"&&hasDisp)?" 진열칸은 조명을 또렷하게 켜서 쇼룸처럼 연출했어요.":a.light==="show"?" 선반 라인 조명을 또렷하게 켜서 쇼룸처럼 연출했어요.":" 선반 라인에 은은한 간접광을 넣었어요.") : "";
-  return `<b>${m.name}</b> 무드에 맞춰 <b>${p.name} · ${COLORS[S.c].name}</b>로 구성했어요. ${why}${doorW}${lightTx}`;
+  return `<b>${m.name}</b> 무드에 맞춰 <b>${p.name} · ${COLORS[S.c].name}</b>로 구성했어요. ${why}${doorW}${lightTx}${deskTx}`;
 }
 
 /* ================= 3D 엔진 (CSS 3D) ================= */
@@ -715,7 +742,7 @@ function build(world, k, opt){
     const WD=420;
     plane(world,k,`background:repeating-linear-gradient(90deg,transparent 0 ${598*k}px,rgba(0,0,0,.16) ${598*k}px ${600*k}px),${surf(bcol,dim**.35)}`, W, H, `translate3d(0px,${-H*k}px,${(-D+8)*k}px)`);
     if(L) plane(world,k,`background:radial-gradient(80% 50% at 50% 20%,rgba(255,214,140,.30),transparent 75%)`, W, H, `translate3d(0px,${-H*k}px,${(-D+3)*k}px)`);
-    for(let i=0;i<n;i++) interior(world,k,v.mods[i],i*mw+30,80,-D,mw-60,H-200,WD,bcol,inC,LED,L,{...opt,wall:true});
+    showroom(world,k,W,H,D,WD,bcol,icol,inC,LED,L);
     return regs;
   }
   // 상부 몰딩, 걸레받이(써걸)
@@ -726,6 +753,7 @@ function build(world, k, opt){
     plane(world,k,`background:linear-gradient(180deg,${shade(inC,.82*dim**.3)},${shade(inC,.95)})`, mw, IH, `translate3d(${x*k}px,${-(H-TOP)*k}px,${-D*k}px)`);
     if(L) plane(world,k,`background:radial-gradient(70% 55% at 50% 8%,rgba(255,214,140,.40),transparent 75%)`, mw, IH, `translate3d(${x*k}px,${-(H-TOP)*k}px,${(-D+2)*k}px)`);
     interior(world,k,v.mods[i],x,BASE,-D,mw,IH,D,bcol,inC,LED,L,opt);
+    if(S.p==="newcastle"){ [x+70,x+mw-90].forEach(rx=>plane(world,k,`background:repeating-linear-gradient(180deg,#2b2926 0 ${14*k}px,#5b564e ${14*k}px ${32*k}px)`,20,IH-40,`translate3d(${rx*k}px,${-(H-TOP-20)*k}px,${(-D+4)*k}px)`)); if(L) plane(world,k,LED,mw-80,6,`translate3d(${(x+40)*k}px,${-(H-TOP-30)*k}px,${(-D+30)*k}px)`); }
   }
   // 측판 / 칸막이 18T
   for(let i=0;i<=n;i++){
@@ -739,7 +767,8 @@ function build(world, k, opt){
 
   // 도어
   if(prod.doors!=="none"){
-    for(let i=0;i<n;i++) regs.push(...doors(world,k,prod.doors,i*mw,BASE,mw,IH,col,i));
+    if(prod.doors==="slide") regs.push(...slideDoors(world,k,W,BASE,IH,col,n));
+    else for(let i=0;i<n;i++){ if(v.mods[i]==="desk") continue; regs.push(...doors(world,k,prod.doors,i*mw,BASE,mw,IH,col,i)); }
     if(prod.doors==="panel" && L) plane(world,k,LED, W-40, 8, `translate3d(${20*k}px,${-(H-TOP-2)*k}px,${26*k}px)`);
   }
   return regs;
@@ -751,11 +780,34 @@ function interior(world,k,type,x,y,z,w,h,D,col,inC,LED,L,opt){
   const rod=(yy)=>box(world,k,x+20,yy,z+D/2-15,w-40,16,16,rodC,"f b");
   const tones=S.mood==="luxe"?["#1f1d1b","#6d5a48","#d8cbb6","#3a3633","#a48463","#efe7da"]:S.mood==="natural"?["#e6dccb","#b9a78c","#8f8a7c","#f2ece2","#c8b89c","#6d7062"]:["#d9d1c4","#8c8579","#3e3b37","#b7ab98","#efe9df","#6f665c"];
   const clothes=(top,len)=>{ const cnt=Math.max(3,Math.floor((w-60)/(S.W>4000?150:90))); for(let j=0;j<cnt;j++){ const cx=x+40+j*((w-80-34)/Math.max(1,cnt-1)); const l=len*(0.74+((j*37+Math.round(x))%25)/100); const c=tones[(j+Math.round(x/97))%tones.length]; const cwid=26+((j*13)%16); box(world,k,cx,top-l,z+70+((j*29)%40),cwid,l,D-170,c,"f l r");} };
-  const drawers=(cnt)=>{ for(let d=0;d<cnt;d++){ const dy=y+18+220*d; box(world,k,x+20,dy+4,z+30,w-40,212,D-60,f=>surf(col,f),"f t"); plane(world,k,`background:${shade(col.frame,.85)};border-radius:4px`, Math.min(160,w*.3), 10, `translate3d(${(x+w/2-Math.min(80,w*.15))*k}px,${-(dy+190)*k}px,${(z+D-28)*k}px)`);} return 18+220*cnt; };
+  const drawers=(cnt)=>{ for(let d=0;d<cnt;d++){ const dy=y+18+220*d; box(world,k,x+20,dy+4,z+30,w-40,212,D-60,f=>surf(col,f),"f t"); plane(world,k,`background:rgba(0,0,0,.28)`, w-40, 6, `translate3d(${(x+20)*k}px,${-(dy+214)*k}px,${(z+D-29)*k}px)`);} return 18+220*cnt; };
   const obj=(yy,kind)=>{ const cnt=Math.max(1,Math.floor(w/280)); for(let j=0;j<cnt;j++){ const ox=x+50+j*((w-100)/cnt); const pal=S.mood==="luxe"?["#d8c6a3","#1f1c1a","#8a5a3c","#efe6d6"]:["#e9e2d5","#a89a85","#6f665c","#d6c6ab"]; const c=pal[(j+Math.round(x))%pal.length];
       if(kind==="bags"){ const bw=150+(j%2)*40, bh=150+(j%3)*30; box(world,k,ox,yy,z+D/2-90,bw,bh,140,c,"f t l r"); box(world,k,ox+bw*.25,yy+bh,z+D/2-30,bw*.5,40,10,shade(c,.7),"f"); }
       else { const bw=120+(j%3)*30, bh=90+(j%2)*90; box(world,k,ox,yy,z+D/2-100,bw,bh,200,c,"f t l r"); } } };
   const props = (MOODS[S.mood]||{}).props==="bags" ? "bags":"box";
+  if(type==="widedisplay"){
+    const rw=Math.round(w*0.6);
+    interior(world,k,"widerail",x,y,z,rw,h,D,col,inC,LED,L,opt);
+    box(world,k,x+rw-9,y,z,18,h,D,f=>surf(col,f),"f l r");
+    interior(world,k,"display",x+rw,y,z,w-rw,h,D,col,inC,LED,L,opt);
+    return;
+  }
+  if(type==="widerail"||type==="widedrawer"){
+    const s=y+h-320; sh(s); obj(s+18,"box"); rod(s-66);
+    const bottom = type==="widedrawer" ? y+drawers(2) : y+170;
+    if(type==="widedrawer") sh(bottom); else { sh(y+150); obj(y+168,"box"); }
+    const cnt=Math.max(6,Math.floor((w-80)/(S.W>4000?110:72)));
+    for(let j=0;j<cnt;j++){ const cx=x+40+j*((w-80-30)/Math.max(1,cnt-1)); const l=Math.min(1250,(s-66-bottom-80))*(0.62+((j*29+Math.round(x))%37)/100); const c=tones[(j+Math.round(x/97))%tones.length]; box(world,k,cx,s-66-l,z+70+((j*29)%40),24+((j*13)%14),l,D-170,c,"f l r"); }
+    return;
+  }
+  if(type==="desk"){
+    const top=y+700; box(world,k,x+20,top,z+20,w-40,30,D-40,f=>shade(inC,f),"f t");
+    box(world,k,x+20,top-160,z+40,w-40,140,D-80,f=>surf(col,f),"f");
+    plane(world,k,`background:linear-gradient(135deg,#e9eef0,#b9c3c7 50%,#eef2f3);border-radius:${30*k}px;${L?"box-shadow:0 0 18px 4px rgba(255,214,140,.7)":""}`,w-200,760,`translate3d(${(x+100)*k}px,${-(top+880)*k}px,${(z+6)*k}px)`);
+    sh(y+h-300); obj(y+h-282,"box");
+    box(world,k,x+w/2-170,y-60,z+D+120,340,430,340,f=>shade("#d9cdb8",f),"f t l r");
+    return;
+  }
   if(type==="hang"){ const s=y+h-300; sh(s); rod(s-66); clothes(s-66, Math.min(1100,h-500)); }
   else if(type==="double"){ const s=y+h-300; sh(s); rod(s-66); const m=y+(h-300)/2; clothes(s-66, Math.min(820,s-66-m-90)); sh(m); rod(m-66); clothes(m-66, Math.min(820,m-66-y-60)); }
   else if(type==="drawer"){ const used=drawers(2); const c=y+used; sh(c); const s=y+h-300; sh(s); rod(s-66); clothes(s-66, Math.min(1100,Math.max(300,s-66-c-80))); }
@@ -765,7 +817,7 @@ function interior(world,k,type,x,y,z,w,h,D,col,inC,LED,L,opt){
 
 function doors(world,k,kind,x,y,w,h,col,idx){
   const regs=[], g=4, T=18;
-  const isPush = (S.ans.need==="hide") || kind==="panel";
+  const isPush = true; // 유비스 도어: 손잡이 없는 통판 (실제 제품 기준)
   const hdlC = S.mood==="classic" ? "#b8975f" : (S.c==="black"||S.c==="walnut") ? "#8c857a" : "#2b2a28";
   const leaf=(parent,lx,lw,hinge,openDeg,face)=>{
     const grp=mk(parent,"grp door",`width:${lw*k}px;height:${h*k}px;transform-origin:${hinge==="L"?0:lw*k}px 0 0`);
@@ -776,7 +828,7 @@ function doors(world,k,kind,x,y,w,h,col,idx){
     return grp;
   };
   const fill = f=> kind==="glass" ? "transparent" : surf(col,f);
-  const setT=(grp)=>{ grp.style.transform = grp.dataset.base + (S.open?` rotateY(${grp.dataset.open}deg)`:" rotateY(0deg)"); regs.push(grp); };
+  const setT=(grp)=>{ doorT(grp); regs.push(grp); };
   if(kind==="hybrid"){ const nMod=Math.max(1,Math.round(S.W/PRODUCTS[S.p].modW)); kind = (idx===Math.floor(nMod/2)) ? "glass" : "hinge"; }
   if(kind==="hinge"||kind==="panel"||kind==="glass"){
     const cnt=w>600?2:1, dw=w/cnt;
@@ -810,6 +862,38 @@ function doors(world,k,kind,x,y,w,h,col,idx){
 }
 
 
+/* 미닫이(슬라이딩) 도어: 앞뒤 2레일, 열면 앞 문이 뒤 문 위로 스르륵 */
+function slideDoors(world,k,W,y,h,col,n){
+  const regs=[]; const np = S.p==="wide" ? n*2 : Math.max(2,Math.round(W/1000)); const pw=W/np, T=18;
+  for(let i=0;i<np;i++){
+    const front = i%2===1, z = front ? 46 : 18, lw=pw+(i<np-1?30:0);
+    const g=mk(world,"grp door",`width:${lw*k}px;height:${h*k}px`);
+    g.dataset.base=`translate3d(${i*pw*k}px,${-(y+h)*k}px,${z*k}px)`; g.dataset.slide=String(front? -pw*k*0.98 : 0);
+    box(g,k,0,-h,0,lw-4,h-4,T,f=>surf(col,f*(front?1:.96)),"f l r t");
+    doorT(g); regs.push(g);
+  }
+  // 상하 레일
+  box(world,k,0,y+h-6,0,W,14,70,"#8e8a83","f b"); box(world,k,0,y-8,0,W,10,70,"#8e8a83","f t");
+  return regs;
+}
+/* 벽판넬 쇼룸: 벽 바에 옷 앞면이 보이게(페이스아웃), 떠 있는 선반마다 라인조명 */
+function showroom(world,k,W,H,D,WD,bcol,icol,inC,LED,L){
+  const z=-D, v=S.v;
+  const tones=S.mood==="luxe"?["#1f1d1b","#6d5a48","#d8cbb6","#3a3633","#a48463","#efe7da"]:["#d9d1c4","#8c8579","#3e3b37","#b7ab98","#efe9df","#6f665c","#a9b4a6"];
+  const shelf=(x,yy,w)=>{ box(world,k,x,yy,z+6,w,24,WD,f=>shade(inC,f),"f t b"); if(L){ plane(world,k,LED,w-30,6,`translate3d(${(x+15)*k}px,${-(yy-2)*k}px,${(z+WD-10)*k}px)`); } };
+  const bar=(x1,x2,yy)=>{ box(world,k,x1,yy,z+150,x2-x1,14,14,"#2a2826","f b"); [x1,x2-14].forEach(bx=>box(world,k,bx,yy-10,z+6,14,24,150,"#2a2826","f l r")); };
+  const faceOut=(x1,x2,yy,len)=>{ const gap=Math.max(380,Math.min(520,(x2-x1)/Math.max(1,Math.round((x2-x1)/460)))); let j=0; for(let cx=x1+gap/2; cx<x2-150; cx+=gap,j++){ const c=tones[j%tones.length]; const gw=Math.min(420,gap-60); box(world,k,cx-gw/2,yy-30-len,z+150+((j%3)*14),gw,len,22,f=>shade(c,f),"f l r"); box(world,k,cx-gw*.22,yy-40,z+150,gw*.44,30,24,f=>shade(c,f*.9),"f"); } };
+  const items=(x,yy,w)=>{ const pal=["#d8c6a3","#1f1c1a","#8a5a3c","#efe6d6","#b9a78c"]; const c=Math.max(1,Math.floor(w/300)); for(let j=0;j<c;j++){ const bw=140+(j%2)*50, bh=130+(j%3)*40; box(world,k,x+40+j*(w-80)/c,yy+24,z+WD/2-60,bw,bh,140,pal[j%pal.length],"f t l r"); } };
+  // 상단 연속 선반 (전체 폭)
+  shelf(60,H-430,W-120); items(60,H-430,W-120);
+  if(v===0){ const rx=Math.round(W*0.64); bar(80,rx-60,1720); faceOut(80,rx-60,1720,980);
+    for(let yy=H-800; yy>560; yy-=360){ shelf(rx,yy,W-rx-60); items(rx,yy,W-rx-60); }
+    box(world,k,rx,80,z+6,W-rx-60,420,WD,f=>surf(bcol,f),"f t"); }
+  else if(v===1){ bar(80,W-80,1800); faceOut(80,W-80,1800,700); bar(80,W-80,960); faceOut(80,W-80,960,620); }
+  else { const mw2=Math.min(620,W*0.2); plane(world,k,`background:linear-gradient(120deg,#f1f4f5,#b8c2c6 45%,#eef1f2 60%,#c9d1d4);${L?"box-shadow:0 0 22px 5px rgba(255,214,140,.55)":""}`,mw2,1900,`translate3d(${80*k}px,${-2000*k}px,${(z+10)*k}px)`);
+    const sx=80+mw2+120; bar(sx,Math.round(W*0.62),1720); faceOut(sx,Math.round(W*0.62),1720,980);
+    const rx=Math.round(W*0.62)+60; for(let yy=H-800; yy>300; yy-=330){ shelf(rx,yy,W-rx-60); items(rx,yy,W-rx-60); } }
+}
 /* 콘센트 + 스위치 조명 (조명 공사 없음) */
 function lightSwitch(world,k,W,H,D){
   const z=200*k, x=70*k;
@@ -839,7 +923,8 @@ function applyCam(){
   const st=$("stage"), cw=st.clientWidth, ch=st.clientHeight, k=K;
   $("world").style.transform = `translate3d(${cw/2}px,${ch*0.5}px,${-320*k}px) rotateX(${S.pitch}deg) rotateY(${S.yaw}deg) translate3d(${-S.W*k/2}px,${S.H*k/2}px,${300*k}px)`;
 }
-function setOpen(o){ S.open=o; const f=g=>g.style.transform=g.dataset.base+(S.open?` rotateY(${g.dataset.open}deg)`:" rotateY(0deg)"); curRegs.forEach(f); arRegs.forEach(f); syncUI(); }
+function doorT(g){ g.style.transform = g.dataset.slide!==undefined ? g.dataset.base+(S.open?` translateX(${g.dataset.slide}px)`:" translateX(0px)") : g.dataset.base+(S.open?` rotateY(${g.dataset.open}deg)`:" rotateY(0deg)"); }
+function setOpen(o){ S.open=o; curRegs.forEach(doorT); arRegs.forEach(doorT); syncUI(); }
 
 // 드래그 회전
 (function(){
@@ -941,7 +1026,7 @@ function readDims(){
   document.querySelectorAll(".field").forEach(f=>f.classList.toggle("bad",warn));
   S.W=w;S.H=h;
 }
-function doorLabel(){ const k=PRODUCTS[S.p].doors; const push=S.ans.need==="hide"; return k==="none"?"오픈형(문 없음)":k==="glass"?"유리 도어":k==="panel"?"벽판넬 히든 도어":k==="fold"?"폴딩도어":(push?"푸시 도어":"손잡이 도어"); }
+function doorLabel(){ const k=PRODUCTS[S.p].doors; return S.p==="wallpanel"?"벽판넬 쇼룸(문 없음)":k==="none"?"오픈형(문 없음)":k==="glass"?"유리 도어":k==="hybrid"?"유리 + 손잡이 없는 통판 도어":k==="slide"?"미닫이(슬라이딩) 통판 도어":"손잡이 없는 통판 여닫이 도어"; }
 function summaryText(){
   const v=variants()[S.v], p=PRODUCTS[S.p], a=S.ans;
   const lab=(qk)=>{ const q=QUESTIONS.find(x=>x.k===qk); const o=q&&q.opts.find(o=>o.k===a[qk]); return o?o.t:"-"; };
@@ -1122,12 +1207,55 @@ function realPhotos(){
 }
 function renderReal(){
   const v=variants()[S.v], n=v.mods.length, mw=Math.round(S.W/n), p=PRODUCTS[S.p];
-  const doors = p.doors==="none" ? "문 없는 오픈형" : `문 ${v.mods.reduce((a)=>a+(mw>600?2:1),0)}짝`;
   const list=realPhotos();
   $("rtrack").innerHTML=list.map((x,i)=>`<div class="rslide"><img src="${x[0]}" alt="${p.name} 실제 제품 이미지 ${i+1}" ${i>1?'loading="lazy"':''}></div>`).join("");
   $("rdots").innerHTML=list.map((_,i)=>`<i class="${i===0?"on":""}"></i>`).join("");
   $("rtrack").scrollLeft=0;
-  $("rcap").innerHTML=`<div class="eyebrow">UBIS · ${p.name}</div><h3>고객님 벽 ${fmt(S.W)} × ${fmt(S.H)}mm에<br>이렇게 맞춰 드려요</h3><div class="fit"><span>${n}칸 · 칸당 약 ${fmt(mw)}mm</span><span>${doors}</span><span>${COLORS[S.c].name}</span><span>${v.name}</span>${S.light?"<span>💡 콘센트+스위치 조명</span>":""}</div><small>유비스 실제 제품 이미지예요 · 옆으로 넘겨 보세요 · 색상과 구성은 맞춤 제작</small>`;
+  $("rtag").textContent=`UBIS ${p.name} 실제 제품 · ${list.length}장 넘겨보기`;
+  $("rsize").textContent=`${fmt(S.W)} × ${fmt(S.H)}mm`;
+  $("relev").innerHTML=elevSVG();
+  const doors = p.doors==="none" ? doorLabel() : p.doors==="slide" ? `미닫이 ${S.p==="wide"?n*2:Math.max(2,Math.round(S.W/1000))}짝` : `문 ${v.mods.reduce((a,m)=>a+(m==="desk"?0:(mw>600?2:1)),0)}짝`;
+  $("rcap").innerHTML=`<div class="fit"><span>${S.p==="wallpanel"?`벽 전체 ${fmt(S.W)}mm 쇼룸`:`${n}칸 · 칸당 약 ${fmt(mw)}mm`}</span><span>${doors}</span><span>문 ${COLORS[S.c].name} · 몸통 ${COLORS[S.cb].name} · 내부 ${COLORS[S.ci].name}</span><span>${v.name}</span>${S.light?"<span>💡 콘센트+스위치 조명</span>":""}</div>`;
+}
+/* 고객 벽 치수로 그린 정면 도면 (실사 사진 아래 '우리 집 적용') */
+function elevSVG(){
+  const W=S.W,H=S.H,p=PRODUCTS[S.p],v=variants()[S.v],n=v.mods.length,mw=W/n;
+  const dc=COLORS[S.c], bc=COLORS[S.cb], ic=COLORS[S.ci];
+  const pad=Math.max(W,H)*0.09, vw=W+pad*2, vh=H+pad*2.1, fs=Math.max(90,W*0.045);
+  const R=(x,y,w,h,f,st="",ex="")=>`<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="${f}" ${st?`stroke="${st}" stroke-width="${Math.max(4,W/500)}"`:""} ${ex}/>`;
+  const L=(x1,y1,x2,y2,c,sw)=>`<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${c}" stroke-width="${sw||Math.max(4,W/600)}"/>`;
+  const glow=S.light?`<rect x="0" y="0" width="${W}" height="${H}" fill="url(#gw)"/>`:"";
+  let g=`<defs><radialGradient id="gw" cx="50%" cy="10%" r="80%"><stop offset="0" stop-color="#ffd27a" stop-opacity=".35"/><stop offset="1" stop-color="#ffd27a" stop-opacity="0"/></radialGradient><pattern id="wood" width="60" height="600" patternUnits="userSpaceOnUse"><rect width="60" height="600" fill="${dc.door}"/><path d="M20 0 C28 200 12 400 22 600" stroke="${dc.grain||dc.door}" stroke-width="6" fill="none" opacity=".5"/></pattern></defs>`;
+  g+=`<g transform="translate(${pad},${pad*0.7})">`;
+  g+=R(-pad*0.6,0,W+pad*1.2,H,"#e7e2d9");
+  const doorFill=dc.grain?"url(#wood)":dc.door, line=shade(dc.frame,.9);
+  const shelfLines=(x,w)=>{ let o=""; for(let yy=300; yy<H-200; yy+=380) o+=R(x+30,yy,w-60,22,ic.frame)+(S.light?R(x+50,yy+22,w-100,10,"#ffcf6e"):""); return o; };
+  const garments=(x1,x2,yy,len,face)=>{ let o="",j=0; const cols=["#3e3b37","#b7ab98","#8c8579","#d9d1c4","#6d5a48"]; const step=face?480:80; for(let cx=x1+step/2; cx<x2-step/3; cx+=step,j++) o+= face? R(cx-200,yy+40,400,len,cols[j%5],"","rx='40'") : R(cx-14,yy+30,28,len*(0.7+((j*37)%30)/100),cols[j%5]); return o+L(x1,yy,x2,yy,"#2a2826",18); };
+  if(S.p==="wallpanel"){
+    g+=R(0,0,W,H,bc.door)+glow;
+    for(let x=600;x<W;x+=600) g+=L(x,0,x,H,"rgba(0,0,0,.15)",4);
+    g+=R(60,430,W-120,24,ic.frame)+(S.light?R(80,454,W-160,10,"#ffcf6e"):"");
+    if(S.v===1){ g+=garments(80,W-80,H-1800,700,true)+garments(80,W-80,H-960,600,true); }
+    else { const rx=S.v===2?W*0.62:W*0.64; const sx=S.v===2?80+Math.min(620,W*.2)+120:80; if(S.v===2) g+=R(80,300,Math.min(620,W*.2),1900,"#cfd8db","#9aa5a9"); g+=garments(sx,rx-60,H-1720,980,true); const gap=S.v===2?330:360, lim=S.v===2?H-300:H-560; for(let yy=800; yy<lim; yy+=gap) g+=R(rx,yy,W-rx-60,24,ic.frame)+(S.light?R(rx+20,yy+24,W-rx-100,10,"#ffcf6e"):""); if(S.v===0) g+=R(rx,H-500,W-rx-60,420,bc.door,shade(bc.frame,.9)); }
+  } else {
+    g+=R(0,0,W,H,bc.door,line);
+    g+=R(0,H-60,W,60,shade(bc.frame,.9));
+    for(let i=0;i<n;i++){
+      const x=i*mw, m=v.mods[i];
+      if(p.doors==="none"||m==="desk"){ g+=R(x+18,40,mw-36,H-100,ic.door)+glow; if(m==="desk"){ g+=R(x+30,H-760,mw-60,30,ic.frame)+R(x+100,H-1640,mw-200,760,"#cfd8db","#9aa5a9","rx='30'"); } else if(m==="shelf") g+=shelfLines(x,mw); else g+=garments(x+40,x+mw-40,300+60,Math.min(1100,H-700),false)+shelfLines(x,mw).slice(0,0); }
+      else if(p.doors==="slide") {}
+      else { const cnt=mw>600?2:1, dw=mw/cnt; const isGlass=p.doors==="glass"||(p.doors==="hybrid"&&i===Math.floor(n/2));
+        for(let d=0;d<cnt;d++){ const dx=x+d*dw; g+= isGlass ? R(dx+6,44,dw-12,H-108,"rgba(60,45,35,.55)",shade(dc.frame,.6))+garments(dx+40,dx+dw-40,360,900,false) : R(dx+4,42,dw-8,H-104,doorFill,line); } }
+    }
+    if(p.doors==="slide"){ const np=S.p==="wide"?n*2:Math.max(2,Math.round(W/1000)), pw=W/np; for(let i=0;i<np;i++){ g+=R(i*pw+(i%2?0:6),42,pw+(i<np-1?24:0),H-104,doorFill,line,i%2?"":"opacity='.92'"); } g+=L(0,38,W,38,"#8e8a83",20)+L(0,H-58,W,H-58,"#8e8a83",14); }
+    for(let i=1;i<n && p.doors!=="slide";i++) g+=L(i*mw,40,i*mw,H-60,line,6);
+  }
+  // 치수
+  const dy=H+pad*0.55; g+=L(0,dy,W,dy,"#8a8173")+L(0,dy-40,0,dy+40,"#8a8173")+L(W,dy-40,W,dy+40,"#8a8173");
+  g+=`<text x="${W/2}" y="${dy-30}" text-anchor="middle" font-size="${fs}" fill="#d9cfbf" font-family="Noto Sans KR">${fmt(W)} mm</text>`;
+  if(S.p!=="wallpanel") for(let i=0;i<n;i++) g+=`<text x="${i*mw+mw/2}" y="${-24}" text-anchor="middle" font-size="${fs*.8}" fill="#a39b8d" font-family="Noto Sans KR">${fmt(Math.round(mw))}</text>`;
+  g+=`<text x="${W+pad*0.35}" y="${H/2}" font-size="${fs}" fill="#d9cfbf" font-family="Noto Sans KR" transform="rotate(90 ${W+pad*0.35} ${H/2})" text-anchor="middle">${fmt(H)} mm</text>`;
+  return `<svg viewBox="0 0 ${vw} ${vh}" preserveAspectRatio="xMidYMid meet" role="img" aria-label="고객 벽 치수 정면도">${g}</g></svg>`;
 }
 $("rtrack").addEventListener("scroll",()=>{ const i=Math.round($("rtrack").scrollLeft/Math.max(1,$("rtrack").clientWidth)); $("rdots").querySelectorAll("i").forEach((d,k)=>d.classList.toggle("on",k===i)); },{passive:true});
 function setView(v){ S.view=v; $("s-design").classList.toggle("v3d",v==="3d"); $("bReal").classList.toggle("on",v==="real"); $("b3d").classList.toggle("on",v==="3d"); if(v==="3d") requestAnimationFrame(()=>layout()); }
